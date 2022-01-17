@@ -117,7 +117,7 @@ namespace Gotobed
 	}
 
 	template<class Pred>
-	void Actor::EquipItemsIf(const EquipList& a_list, const Pred& a_pred)
+	void Actor::EquipItemsIf(const EquipList& a_list, Pred a_pred)
 	{
 		for (const auto& entry : a_list.entries) {
 			if (entry.item && a_pred(entry)) {
@@ -133,7 +133,7 @@ namespace Gotobed
 	}
 
 	template<class Pred>
-	void Actor::UnequipItemsIf(const EquipList& a_list, const Pred& a_pred)
+	void Actor::UnequipItemsIf(const EquipList& a_list, Pred a_pred)
 	{
 		for (const auto& entry : a_list.entries) {
 			if (entry.item && a_pred(entry)) {
@@ -144,7 +144,7 @@ namespace Gotobed
 
 	void Actor::EquipOutfit(const Outfit& a_outfit)
 	{
-		UnequipItemsIf(GetEquippedItems(), a_outfit.mask);
+		UnequipItemsIf(GetEquippedItems(), std::not_fn(~a_outfit.mask));
 		EquipItemsIf(a_outfit.items, a_outfit.mask);
 	}
 }

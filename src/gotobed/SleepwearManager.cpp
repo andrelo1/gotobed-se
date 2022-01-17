@@ -71,7 +71,7 @@ namespace Gotobed
 
 	bool SleepwearManager::IsSleepOutfitEquipped(RE::Actor* a_actor)
 	{
-		return a_actor && jc::JFormDB::solveObj(jc::domain::get(), a_actor, ".gotobed-formdb.outfit");
+		return a_actor && jc::JFormDB::solveObj(jc::domain::get(), a_actor, ".formdb.outfit");
 	}
 
 	std::optional<Outfit> SleepwearManager::GetSleepOutfit(RE::Actor* a_actor)
@@ -80,7 +80,7 @@ namespace Gotobed
 			return std::nullopt;
 		}
 
-		auto outfit = jc::JFormDB::getObj(jc::domain::get(), a_actor, ".gotobed-formdb.preferences.sleepwear.outfit");
+		auto outfit = jc::JFormDB::solveObj(jc::domain::get(), a_actor, ".formdb.preferences.sleepwear.outfit");
 
 		if (outfit) {
 			return outfit;
@@ -97,34 +97,28 @@ namespace Gotobed
 
 	void SleepwearManager::EquipSleepOutfit(RE::Actor* a_actor)
 	{
-		spdlog::info(FMT_STRING("{:<20} actor={:08x}"), "EquipSleepOutfit", a_actor ? a_actor->formID : 0);
-
 		if (!a_actor || IsSleepOutfitEquipped(a_actor)) {
 			return;
 		}
 
 		auto actor = static_cast<Actor*>(a_actor);
 
-		//auto sleepOutfit = GetSleepOutfit(a_actor);
+		auto sleepOutfit = GetSleepOutfit(a_actor);
 
-		//if (!sleepOutfit) {
-		//	return;
-		//}
-
-		Outfit sleepOutfit;
+		if (!sleepOutfit) {
+			return;
+		}
 
 		auto domain = jc::domain::get();
 		Outfit outfit{ actor->GetEquippedItems() };
 
-		jc::JFormDB::solveObjSetter(domain, actor, ".gotobed-formdb.outfit", outfit, true);
+		jc::JFormDB::solveObjSetter(domain, actor, ".formdb.outfit", outfit, true);
 
-		actor->EquipOutfit(sleepOutfit);
+		actor->EquipOutfit(*sleepOutfit);
 	}
 
 	void SleepwearManager::UnequipSleepOutfit(RE::Actor* a_actor)
 	{
-		spdlog::info(FMT_STRING("{:<20} actor={:08x}"), "UnequipSleepOutfit", a_actor ? a_actor->formID : 0);
-
 		if (!a_actor || !IsSleepOutfitEquipped(a_actor)) {
 			return;
 		}
@@ -132,7 +126,7 @@ namespace Gotobed
 		auto actor = static_cast<Actor*>(a_actor);
 
 		auto domain = jc::domain::get();
-		auto outfit = jc::JFormDB::solveObj(domain, actor, ".gotobed-formdb.outfit");
+		auto outfit = jc::JFormDB::solveObj(domain, actor, ".formdb.outfit");
 
 		if (!outfit) {
 			return;
@@ -140,19 +134,17 @@ namespace Gotobed
 
 		actor->EquipOutfit(outfit);
 
-		jc::JFormDB::solveObjSetter(domain, actor, ".gotobed-formdb.outfit", 0);
+		jc::JFormDB::solveObjSetter(domain, actor, ".formdb.outfit", 0);
 	}
 
 	void SleepwearManager::UpdateOutfit(RE::Actor* a_actor)
 	{
-		spdlog::info(FMT_STRING("{:<20} actor={:08x}"), "UpdateOutfit start", a_actor ? a_actor->formID : 0);
-
 		if (!a_actor) {
 			return;
 		}
 
 		if (IsSleepOutfitEnabled(a_actor) && a_actor->actorState1.sitSleepState >= RE::SIT_SLEEP_STATE::kWantToSleep && a_actor->actorState1.sitSleepState <= RE::SIT_SLEEP_STATE::kWantToWake) {
-			EquipConditions conditions{ jc::JFormDB::getObj(jc::domain::get(), a_actor, ".gotobed-formdb.preferences.sleepwear.conditions") };
+			EquipConditions conditions{ jc::JFormDB::solveObj(jc::domain::get(), a_actor, ".formdb.preferences.sleepwear.conditions") };
 
 			if (conditions(a_actor)) {
 				EquipSleepOutfit(a_actor);
@@ -160,7 +152,5 @@ namespace Gotobed
 		} else {
 			UnequipSleepOutfit(a_actor);
 		}
-
-		spdlog::info(FMT_STRING("{:<20} actor={:08x}"), "UpdateOutfit end", a_actor ? a_actor->formID : 0);
 	}
 }

@@ -2,6 +2,15 @@
 
 namespace Gotobed
 {
+	EquipMask::EquipMask(std::uint32_t a_armor, bool a_lhand, bool a_rhand, bool a_ammo, bool a_misc):
+		armor(a_armor),
+		lhand(a_lhand),
+		rhand(a_rhand),
+		ammo(a_ammo),
+		misc(a_misc)
+	{
+	}
+
 	EquipMask::EquipMask(std::int32_t a_obj)
 	{
 		if (a_obj) {
@@ -13,11 +22,6 @@ namespace Gotobed
 			misc = jc::JMap::getInt(domain, a_obj, "misc", 1);
 		}
 	}
-	/*
-	EquipMask::EquipMask(std::uint32_t a_armor, bool a_lhand, bool a_rhand, bool a_ammo, bool a_misc) : armor(a_armor), lhand(a_lhand), rhand(a_rhand), ammo(a_ammo), misc(a_misc)
-	{
-	}
-	*/
 
 	bool EquipMask::operator()(const EquipList::Entry& a_entry) const
 	{
@@ -42,6 +46,11 @@ namespace Gotobed
 		}
 
 		return misc;
+	}
+
+	EquipMask EquipMask::operator~() const
+	{
+		return { ~armor, !lhand, !rhand, !ammo, !misc };
 	}
 
 	EquipMask::operator std::int32_t() const

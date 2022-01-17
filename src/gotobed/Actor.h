@@ -15,9 +15,9 @@ namespace Gotobed
 		void			UnequipItems(const EquipList& a_list);
 
 		template<class Pred>
-		void	EquipItemsIf(const EquipList& a_list, const Pred& a_pred);
+		void	EquipItemsIf(const EquipList& a_list, Pred a_pred);
 		template<class Pred>
-		void	UnequipItemsIf(const EquipList& a_list, const Pred& a_pred);
+		void	UnequipItemsIf(const EquipList& a_list, Pred a_pred);
 
 		void			EquipOutfit(const Outfit& a_outfit);
 	};

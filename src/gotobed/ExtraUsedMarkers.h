@@ -21,7 +21,7 @@ namespace Gotobed
 
 		RE::ExtraDataType	GetType() const override;	// 01
 
-		Entry*				GetMarker(uint32_t a_marker);
+		Entry*				GetMarker(std::uint32_t a_marker);
 
 		RE::BSTArray<Entry>	entries;	// 10
 	};

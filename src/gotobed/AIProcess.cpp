@@ -18,8 +18,6 @@ namespace Gotobed
 
 	void AIProcess::SitSleepStateUpdate_Hook(RE::Actor* a_actor, std::uint32_t a_newState, RE::RefHandle& a_refHandle, std::int32_t a_marker)
 	{
-		spdlog::info(FMT_STRING("{:<20} actor={:08x} a_newState={}"), "SitSleepStateUpdate", a_actor ? a_actor->formID : 0, a_newState);
-
 		SitSleepStateUpdate(a_actor, a_newState, a_refHandle, a_marker);
 
 		if (a_actor && !a_actor->IsInCombat()) {
