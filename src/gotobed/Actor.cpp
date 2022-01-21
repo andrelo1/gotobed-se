@@ -144,6 +144,17 @@ namespace Gotobed
 
 	void Actor::EquipOutfit(const Outfit& a_outfit)
 	{
+		auto player = RE::PlayerCharacter::GetSingleton();
+
+		if (static_cast<RE::Actor*>(this) == player) {
+			if (a_outfit.mask.lhand) {
+				player->lastOneHandItems[0] = nullptr;
+			}
+			if (a_outfit.mask.rhand) {
+				player->lastOneHandItems[1] = nullptr;
+			}
+		}
+
 		UnequipItemsIf(GetEquippedItems(), std::not_fn(~a_outfit.mask));
 		EquipItemsIf(a_outfit.items, a_outfit.mask);
 	}
