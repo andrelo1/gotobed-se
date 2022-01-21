@@ -93,6 +93,9 @@
     <ClCompile Include="src\gotobed\TESObjectREFR.cpp">
       <Filter>src\gotobed</Filter>
     </ClCompile>
+    <ClCompile Include="src\gotobed\UIUtil.cpp">
+      <Filter>src\gotobed</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -168,6 +171,9 @@
       <Filter>src\gotobed</Filter>
     </ClInclude>
     <ClInclude Include="src\gotobed\TESObjectREFR.h">
+      <Filter>src\gotobed</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gotobed\UIUtil.h">
       <Filter>src\gotobed</Filter>
     </ClInclude>
   </ItemGroup>

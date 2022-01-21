@@ -3,6 +3,7 @@
 #include "Misc.h"
 #include "MenuOpenHandler.h"
 #include "AIProcess.h"
+#include "UIUtil.h"
 
 namespace Gotobed
 {
@@ -11,6 +12,7 @@ namespace Gotobed
 		MenuOpenHandlerNS::Init();
 		AIProcessNS::Init();
 		TESObjectREFRNS::Init();
+		UIUtil::Init();
 		Misc::Init();
 	}
 }
