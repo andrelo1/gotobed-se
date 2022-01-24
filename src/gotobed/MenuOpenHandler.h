@@ -6,6 +6,7 @@ namespace Gotobed
 	{
 		bool	ProcessButton_Original(RE::ButtonEvent* a_event);
 		bool	ProcessButton_Hook(RE::ButtonEvent* a_event);
+		bool	ProcessWaitButton();
 	};
 
 	namespace MenuOpenHandlerNS

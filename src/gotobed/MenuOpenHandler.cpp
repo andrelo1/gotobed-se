@@ -32,41 +32,54 @@ namespace Gotobed
 
 	bool MenuOpenHandler::ProcessButton_Hook(RE::ButtonEvent* a_event)
 	{
-		if (!a_event || a_event->userEvent != "Wait") {
-			return ProcessButton_Original(a_event);
-		}
-
-		auto result = false;
-
-		if (a_event->IsDown()) {
-			auto ui = RE::UI::GetSingleton();
-			if (ui->numPausesGame == 0 && !ui->IsMenuOpen("Fader Menu")) {
-				auto player = RE::PlayerCharacter::GetSingleton();
-				if (player->actorState1.lifeState != RE::ACTOR_LIFE_STATE::kDying && player->actorState1.lifeState != RE::ACTOR_LIFE_STATE::kDead) {
-					if (player->jailSentence > 0 && (player->unkBD8 & 0x40) == 0) {
-						auto settings = RE::GameSettingCollection::GetSingleton();
-						auto sServeSentenceQuestion = settings->GetSetting("sServeSentenceQuestion")->GetString();
-						auto sYes = settings->GetSetting("sYes")->GetString();
-						auto sNo = settings->GetSetting("sNo")->GetString();
-						auto callback = [](std::uint8_t a_idx) {
-							if (a_idx == 1) {
-								RE::PlayerCharacter::GetSingleton()->ServePrisonTime();
-							}
-						};
-						ShowMessageBox(sServeSentenceQuestion, callback, 1, 0x19, 4, sYes, sNo, nullptr);
-					} else {
-						ShowSleepWaitMenu(player->actorState1.sitSleepState == RE::SIT_SLEEP_STATE::kIsSleeping);
+		if (a_event) {
+			if (a_event->userEvent == "Wait") {
+				if (a_event->IsDown()) {
+					if (ProcessWaitButton()) {
+						REL::Relocation<std::uint8_t*> unk_2FEA508{ Offsets::unk_2FEA508.address() };
+						unk_2FEA508 = true;
+						return true;
 					}
-
-					result = true;
 				}
 			}
 		}
 
-		REL::Relocation<std::uint8_t*> unk_2FEA508{ Offsets::unk_2FEA508.address() };
-		*unk_2FEA508 = result;
+		return ProcessButton_Original(a_event);
+	}
 
-		return result;
+	bool MenuOpenHandler::ProcessWaitButton()
+	{
+		auto ui = RE::UI::GetSingleton();
+
+		if (ui->numPausesGame || ui->IsMenuOpen("Fader Menu")) {
+			return false;
+		}
+
+		auto player = RE::PlayerCharacter::GetSingleton();
+
+		if (player->actorState1.lifeState == RE::ACTOR_LIFE_STATE::kDying || player->actorState1.lifeState == RE::ACTOR_LIFE_STATE::kDead) {
+			return false;
+		}
+
+		if (player->jailSentence > 0 && (player->unkBD8 & 0x40) == 0) {
+			auto settings = RE::GameSettingCollection::GetSingleton();
+			auto sServeSentenceQuestion = settings->GetSetting("sServeSentenceQuestion")->GetString();
+			auto sYes = settings->GetSetting("sYes")->GetString();
+			auto sNo = settings->GetSetting("sNo")->GetString();
+			auto callback = [](std::uint8_t a_idx) {
+				if (a_idx == 1) {
+					RE::PlayerCharacter::GetSingleton()->ServePrisonTime();
+				}
+			};
+
+			ShowMessageBox(sServeSentenceQuestion, callback, 1, 0x19, 4, sYes, sNo, nullptr);
+		} else if (player->actorState1.sitSleepState == RE::SIT_SLEEP_STATE::kIsSleeping) {
+			ShowSleepWaitMenu(true);
+		} else {
+			return false;
+		}
+
+		return true;
 	}
 
 	void MenuOpenHandlerNS::Init()
