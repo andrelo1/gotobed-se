@@ -10,8 +10,10 @@ namespace Gotobed
 	void Init()
 	{
 		MenuOpenHandlerNS::Init();
-		AIProcessNS::Init();
 		TESObjectREFRNS::Init();
+#ifndef NOJC
+		AIProcessNS::Init();
+#endif
 		UIUtil::Init();
 		Misc::Init();
 	}
