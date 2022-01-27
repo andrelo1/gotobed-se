@@ -14,8 +14,8 @@ namespace Gotobed::Misc
 		// don't allow sleeping in reserved bed
 		REL::safe_write(Offsets::PlayerCharacter::CanSleepWaitHere.address() + 0x01B0, static_cast<std::uint8_t>(0x00));
 		// don't stop animations when sleeping
-		REL::safe_write(Offsets::AIProcess::SitSleepStateUpdate.address() + 0x033F, (std::uint8_t)0xEB);
-		REL::safe_write(Offsets::AIProcess::sub_674B60.address() + 0x013C, (std::uint8_t)0xEB);
-		REL::safe_write(Offsets::Actor::FinishLoadGame.address() + 0x01B3, (std::uint8_t)0xEB);
+		REL::safe_write(Offsets::AIProcess::SitSleepStateUpdate.address() + 0x033F, static_cast<std::uint8_t>(0xEB));
+		REL::safe_write(Offsets::AIProcess::sub_674B60.address() + 0x013C, static_cast<std::uint8_t>(0xEB));
+		REL::safe_write(Offsets::Actor::FinishLoadGame.address() + 0x01B3, static_cast<std::uint8_t>(0xEB));
 	}
 }
