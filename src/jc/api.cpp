@@ -203,6 +203,8 @@ namespace jc::api
 		if (!initApi(a_root)) {
 			SKSE::stl::report_and_fail("JContainers initialization error, see log for details");
 		}
+
+		spdlog::info("jc api initialized");
 	}
 
 	void onPostLoad()
