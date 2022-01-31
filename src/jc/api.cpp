@@ -209,7 +209,7 @@ namespace jc::api
 
 	void onPostLoad()
 	{
-		if (!skseLoadInterface->GetPluginInfo(JC_PLUGIN_NAME)) {
+		if (skseLoadInterface->SKSEVersion() >= 0x02000120 && !skseLoadInterface->GetPluginInfo(JC_PLUGIN_NAME)) {
 			spdlog::critical("JContainers plugin is not available");
 			SKSE::stl::report_and_fail("JContainers initialization error, see log for details");
 		}
