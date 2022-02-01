@@ -16,12 +16,10 @@ Clone repository:
 ```
 git clone https://github.com/andrelo1/gotobed-ae
 ```
-Clone libraries:
+Clone submodules:
 ```
 cd gotobed-ae
-git clone https://github.com/Ryan-rsm-McKenzie/CommonLibSSE
-git clone https://github.com/microsoft/Detours
-git clone https://github.com/ryobg/JContainers
+git submodule update --init
 ```
 Build CommonLibSSE:
 ```
