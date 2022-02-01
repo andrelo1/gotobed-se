@@ -1,6 +1,4 @@
-#ifndef NOJC
 #include "jc/jcinit.h"
-#endif
 #include "gotobed/gotobedinit.h"
 
 namespace
@@ -36,7 +34,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface * a_
 
 	SKSE::Init(a_skse);
 #ifndef NOJC
-	jc::init(a_skse);
+	jc::init();
 #endif
 	Gotobed::Init();
 

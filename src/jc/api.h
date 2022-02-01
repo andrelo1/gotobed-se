@@ -7,7 +7,7 @@ namespace jc
 
 	namespace api
 	{
-		void						init(const SKSE::LoadInterface* a_skse);
+		void						init();
 		const reflection_interface*	getReflectionInterface();
 		const domain_interface*		getDomainInterface();
 	}

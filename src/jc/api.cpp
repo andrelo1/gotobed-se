@@ -4,8 +4,6 @@
 
 namespace jc::api
 {
-	const SKSE::LoadInterface* skseLoadInterface{ nullptr };
-
 	template<class F>
 	void obtain_func(const char* a_funcName, const char* a_className, F& a_func) {
 		a_func = reinterpret_cast<F>(detail::Storage::get().reflectionInterface->tes_function_of_class(a_funcName, a_className));
@@ -209,22 +207,19 @@ namespace jc::api
 
 	void onPostLoad()
 	{
-		if (skseLoadInterface->SKSEVersion() >= 0x02000120 && !skseLoadInterface->GetPluginInfo(JC_PLUGIN_NAME)) {
-			spdlog::critical("JContainers plugin is not available");
-			SKSE::stl::report_and_fail("JContainers initialization error, see log for details");
-		}
-
-		SKSE::GetMessagingInterface()->RegisterListener(JC_PLUGIN_NAME, [](SKSE::MessagingInterface::Message* a_msg) {
+		auto result = SKSE::GetMessagingInterface()->RegisterListener(JC_PLUGIN_NAME, [](SKSE::MessagingInterface::Message* a_msg) {
 			if (a_msg && a_msg->type == jc::message_root_interface) {
 				onJCAPIAvailable(jc::root_interface::from_void(a_msg->data));
 			}
 		});
+
+		if (!result) {
+			SKSE::stl::report_and_fail("JContainers initialization error, see log for details");
+		}
 	}
 
-	void init(const SKSE::LoadInterface* a_skse)
+	void init()
 	{
-		skseLoadInterface = a_skse;
-
 		SKSE::GetMessagingInterface()->RegisterListener("SKSE", [](SKSE::MessagingInterface::Message* a_msg) {
 			if (a_msg && a_msg->type == SKSE::MessagingInterface::kPostLoad) {
 				onPostLoad();

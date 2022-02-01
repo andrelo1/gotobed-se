@@ -3,8 +3,8 @@
 
 namespace jc
 {
-	void init(const SKSE::LoadInterface* a_skse)
+	void init()
 	{
-		api::init(a_skse);
+		api::init();
 	}
 }

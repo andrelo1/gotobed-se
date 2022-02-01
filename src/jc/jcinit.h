@@ -2,5 +2,5 @@
 
 namespace jc
 {
-	void	init(const SKSE::LoadInterface* a_skse);
+	void	init();
 }
