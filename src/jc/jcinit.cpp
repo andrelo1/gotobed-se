@@ -1,5 +1,5 @@
 #include "jcinit.h"
-#include "api.h"
+#include "jcapi.h"
 
 namespace jc
 {

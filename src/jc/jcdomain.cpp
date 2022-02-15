@@ -1,5 +1,5 @@
-#include "domain.h"
-#include "api.h"
+#include "jcdomain.h"
+#include "jcapi.h"
 #include "JContainers/src/JContainers/src/jc_interface.h"
 
 namespace jc::domain

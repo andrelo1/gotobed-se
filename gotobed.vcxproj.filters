@@ -30,15 +30,6 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\jc\api.cpp">
-      <Filter>src\jc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\jc\apistorage.cpp">
-      <Filter>src\jc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\jc\domain.cpp">
-      <Filter>src\jc</Filter>
-    </ClCompile>
     <ClCompile Include="src\jc\JArray.cpp">
       <Filter>src\jc</Filter>
     </ClCompile>
@@ -96,6 +87,15 @@
     <ClCompile Include="src\gotobed\UIUtil.cpp">
       <Filter>src\gotobed</Filter>
     </ClCompile>
+    <ClCompile Include="src\jc\jcapi.cpp">
+      <Filter>src\jc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jc\jcapistorage.cpp">
+      <Filter>src\jc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jc\jcdomain.cpp">
+      <Filter>src\jc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -103,15 +103,6 @@
     </ClInclude>
     <ClInclude Include="src\version.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\jc\api.h">
-      <Filter>src\jc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\jc\apistorage.h">
-      <Filter>src\jc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\jc\domain.h">
-      <Filter>src\jc</Filter>
     </ClInclude>
     <ClInclude Include="src\jc\JArray.h">
       <Filter>src\jc</Filter>
@@ -175,6 +166,15 @@
     </ClInclude>
     <ClInclude Include="src\gotobed\UIUtil.h">
       <Filter>src\gotobed</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jc\jcapi.h">
+      <Filter>src\jc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jc\jcapistorage.h">
+      <Filter>src\jc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jc\jcdomain.h">
+      <Filter>src\jc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

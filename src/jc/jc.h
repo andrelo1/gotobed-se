@@ -1,6 +1,6 @@
 #pragma once
 
-#include "domain.h"
+#include "jcdomain.h"
 #include "JDB.h"
 #include "JFormDB.h"
 #include "JValue.h"
