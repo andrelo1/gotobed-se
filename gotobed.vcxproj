@@ -89,26 +89,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -186,14 +186,14 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>.;.\CommonLibSSE\include;.\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\ext;.\ext\CommonLibSSE\include;.\ext\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4200</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>.\CommonLibSSE\build\Debug\CommonLibSSE.lib;.\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\debug\lib\spdlogd.lib;.\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\debug\lib\fmtd.lib;.\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\debug\lib\binary_iod.lib;.\Detours\lib.X64\detours.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>.\ext\CommonLibSSE\build\Debug\CommonLibSSE.lib;.\ext\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\debug\lib\spdlogd.lib;.\ext\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\debug\lib\fmtd.lib;.\ext\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\debug\lib\binary_iod.lib;.\ext\Detours\lib.X64\detours.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -208,7 +208,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>.;.\CommonLibSSE\include;.\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\ext;.\ext\CommonLibSSE\include;.\ext\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4200</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -217,7 +217,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>.\CommonLibSSE\build\Release\CommonLibSSE.lib;.\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\lib\spdlog.lib;.\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\lib\fmt.lib;.\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\lib\binary_io.lib;.\Detours\lib.X64\detours.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>.\ext\CommonLibSSE\build\Release\CommonLibSSE.lib;.\ext\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\lib\spdlog.lib;.\ext\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\lib\fmt.lib;.\ext\CommonLibSSE\build\vcpkg_installed\x64-windows-static-md\lib\binary_io.lib;.\ext\Detours\lib.X64\detours.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
