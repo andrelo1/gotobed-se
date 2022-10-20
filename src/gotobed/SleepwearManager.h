@@ -19,6 +19,7 @@ namespace Gotobed
 		};
 
 		static SleepwearManager&	Get();
+
 		bool						IsSleepOutfitEnabled(RE::Actor* a_actor);
 		bool						IsSleepOutfitEquipped(RE::Actor* a_actor);
 		std::optional<Outfit>		GetSleepOutfit(RE::Actor* a_actor);

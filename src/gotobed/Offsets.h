@@ -4,9 +4,9 @@ namespace Gotobed::Offsets
 {
 	namespace
 	{
-		constexpr REL::ID ShowSleepWaitMenu{ static_cast<std::uint64_t>(52490) };
 		constexpr REL::ID ShowMessageBox{ static_cast<std::uint64_t>(52269) };
-		constexpr REL::ID unk_2FEA508{ static_cast<std::uint64_t>(406356) };
+		constexpr REL::ID ShowSleepWaitMenu{ static_cast<std::uint64_t>(52490)} ;
+		constexpr REL::ID unk_2FE95F8{ static_cast<std::uint64_t>(406356) };
 	}
 
 	namespace TESFurniture
@@ -29,7 +29,7 @@ namespace Gotobed::Offsets
 	namespace PlayerCharacter
 	{
 		constexpr REL::ID Update{ static_cast<std::uint64_t>(40447) };
-		constexpr REL::ID CanSleepWaitHere{ static_cast<std::uint64_t>(40443) };
+		constexpr REL::ID CanSleepWait{ static_cast<std::uint64_t>(40443) };
 	}
 
 	namespace ExtraReservedMarkers
@@ -44,8 +44,13 @@ namespace Gotobed::Offsets
 
 	namespace AIProcess
 	{
-		constexpr REL::ID SitSleepStateUpdate{ static_cast<std::uint64_t>(39912) };
+		constexpr REL::ID OnSitSleepStateChange{ static_cast<std::uint64_t>(39912) };
 		constexpr REL::ID sub_674B60{ static_cast<std::uint64_t>(39292) };
+	}
+
+	namespace BGSProcedureSitSleepExecState
+	{
+		constexpr REL::ID ProcessActivate{ static_cast<std::uint64_t>(29150) };
 	}
 
 	namespace MenuOpenHandler

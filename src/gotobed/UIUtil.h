@@ -2,5 +2,5 @@
 
 namespace Gotobed::UIUtil
 {
-	void	Init();
+	void	Register();
 }

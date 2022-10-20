@@ -11,43 +11,55 @@ namespace Gotobed
 		bool ShowMessageBox(const char* a_msg, void (*a_callback)(std::uint8_t), std::uint8_t a_unk3, std::uint32_t a_unk4, std::uint32_t a_unk5, Args... a_args)
 		{
 			using func_t = decltype(&ShowMessageBox<Args...>);
-			REL::Relocation<func_t> func{ Offsets::ShowMessageBox.address() };
+			REL::Relocation<func_t> func{ Offsets::ShowMessageBox };
 			return func(a_msg, a_callback, a_unk3, a_unk4, a_unk5, a_args...);
 		}
 
 		void ShowSleepWaitMenu(bool a_sleep)
 		{
 			using func_t = decltype(&ShowSleepWaitMenu);
-			REL::Relocation<func_t> func{ Offsets::ShowSleepWaitMenu.address() };
+			REL::Relocation<func_t> func{ Offsets::ShowSleepWaitMenu };
 			func(a_sleep);
+		}
+
+		void ShowServeSentenceQuestion()
+		{
+			auto settings = RE::GameSettingCollection::GetSingleton();
+			auto sServeSentenceQuestion = settings->GetSetting("sServeSentenceQuestion")->GetString();
+			auto sYes = settings->GetSetting("sYes")->GetString();
+			auto sNo = settings->GetSetting("sNo")->GetString();
+			auto callback = [](std::uint8_t a_idx) {
+				if (a_idx == 1) {
+					RE::PlayerCharacter::GetSingleton()->ServePrisonTime();
+				}
+			};
+
+			ShowMessageBox(sServeSentenceQuestion, callback, 1, 0x19, 4, sYes, sNo, nullptr);
 		}
 	}
 
-	bool MenuOpenHandler::ProcessButton_Original(RE::ButtonEvent* a_event)
+	bool MenuOpenHandler::ProcessButtonOrig(RE::ButtonEvent* a_event)
 	{
-		using func_t = decltype(&MenuOpenHandler::ProcessButton_Original);
+		using func_t = decltype(&MenuOpenHandler::ProcessButtonOrig);
 		REL::Relocation<func_t> func{ ProcessButtonAddr };
 		return func(this, a_event);
 	}
 
-	bool MenuOpenHandler::ProcessButton_Hook(RE::ButtonEvent* a_event)
+	bool MenuOpenHandler::ProcessButtonHook(RE::ButtonEvent* a_event)
 	{
-		if (a_event) {
-			if (a_event->userEvent == "Wait") {
-				if (a_event->IsDown()) {
-					if (ProcessWaitButton()) {
-						REL::Relocation<std::uint8_t*> unk_2FEA508{ Offsets::unk_2FEA508.address() };
-						unk_2FEA508 = true;
-						return true;
-					}
-				}
+		REL::Relocation<std::uint8_t*> unk_2FE95F8{ Offsets::unk_2FE95F8 };
+
+		if (a_event && a_event->userEvent == "Wait" && a_event->IsDown()) {
+			if (OnWaitButtonDown()) {
+				unk_2FE95F8 = true;
+				return true;
 			}
 		}
 
-		return ProcessButton_Original(a_event);
+		return ProcessButtonOrig(a_event);
 	}
 
-	bool MenuOpenHandler::ProcessWaitButton()
+	bool MenuOpenHandler::OnWaitButtonDown()
 	{
 		auto ui = RE::UI::GetSingleton();
 
@@ -62,34 +74,26 @@ namespace Gotobed
 		}
 
 		if (player->jailSentence > 0 && (player->unkBD8 & 0x40) == 0) {
-			auto settings = RE::GameSettingCollection::GetSingleton();
-			auto sServeSentenceQuestion = settings->GetSetting("sServeSentenceQuestion")->GetString();
-			auto sYes = settings->GetSetting("sYes")->GetString();
-			auto sNo = settings->GetSetting("sNo")->GetString();
-			auto callback = [](std::uint8_t a_idx) {
-				if (a_idx == 1) {
-					RE::PlayerCharacter::GetSingleton()->ServePrisonTime();
-				}
-			};
-
-			ShowMessageBox(sServeSentenceQuestion, callback, 1, 0x19, 4, sYes, sNo, nullptr);
-		} else if (player->actorState1.sitSleepState == RE::SIT_SLEEP_STATE::kIsSleeping) {
-			ShowSleepWaitMenu(true);
-		} else {
-			return false;
+			ShowServeSentenceQuestion();
+			return true;
 		}
 
-		return true;
+		if (player->actorState1.sitSleepState == RE::SIT_SLEEP_STATE::kIsSleeping) {
+			ShowSleepWaitMenu(true);
+			return true;
+		}
+
+		return false;
 	}
 
-	void MenuOpenHandlerNS::Init()
+	void MenuOpenHandler::Init()
 	{
 		ProcessButtonAddr = Offsets::MenuOpenHandler::ProcessButton.address();
-		auto ProcessButtonHook = &MenuOpenHandler::ProcessButton_Hook;
+		auto ProcessButtonHookAddr = &ProcessButtonHook;
 
 		DetourTransactionBegin();
 		DetourUpdateThread(GetCurrentThread());
-		DetourAttach(reinterpret_cast<PVOID*>(&ProcessButtonAddr), reinterpret_cast<PVOID&>(ProcessButtonHook));
+		DetourAttach(reinterpret_cast<PVOID*>(&ProcessButtonAddr), reinterpret_cast<PVOID&>(ProcessButtonHookAddr));
 
 		if (DetourTransactionCommit() != NO_ERROR) {
 			spdlog::error("failed to attach detour");

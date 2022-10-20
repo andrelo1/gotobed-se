@@ -4,13 +4,10 @@ namespace Gotobed
 {
 	struct MenuOpenHandler : public RE::MenuOpenHandler
 	{
-		bool	ProcessButton_Original(RE::ButtonEvent* a_event);
-		bool	ProcessButton_Hook(RE::ButtonEvent* a_event);
-		bool	ProcessWaitButton();
-	};
+		bool	ProcessButtonOrig(RE::ButtonEvent* a_event);
+		bool	ProcessButtonHook(RE::ButtonEvent* a_event);
+		bool	OnWaitButtonDown();
 
-	namespace MenuOpenHandlerNS
-	{
-		void	Init();
-	}
+		static void	Init();
+	};
 }

@@ -60,28 +60,16 @@
     <ClCompile Include="src\gotobed\EquipMask.cpp">
       <Filter>src\gotobed</Filter>
     </ClCompile>
-    <ClCompile Include="src\gotobed\ExtraReservedMarkers.cpp">
-      <Filter>src\gotobed</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gotobed\ExtraUsedMarkers.cpp">
-      <Filter>src\gotobed</Filter>
-    </ClCompile>
     <ClCompile Include="src\gotobed\gotobedinit.cpp">
       <Filter>src\gotobed</Filter>
     </ClCompile>
     <ClCompile Include="src\gotobed\MenuOpenHandler.cpp">
       <Filter>src\gotobed</Filter>
     </ClCompile>
-    <ClCompile Include="src\gotobed\Misc.cpp">
-      <Filter>src\gotobed</Filter>
-    </ClCompile>
     <ClCompile Include="src\gotobed\Outfit.cpp">
       <Filter>src\gotobed</Filter>
     </ClCompile>
     <ClCompile Include="src\gotobed\SleepwearManager.cpp">
-      <Filter>src\gotobed</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gotobed\TESObjectREFR.cpp">
       <Filter>src\gotobed</Filter>
     </ClCompile>
     <ClCompile Include="src\gotobed\UIUtil.cpp">
@@ -95,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="src\jc\jcdomain.cpp">
       <Filter>src\jc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gotobed\Fixes.cpp">
+      <Filter>src\gotobed</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,19 +128,10 @@
     <ClInclude Include="src\gotobed\EquipMask.h">
       <Filter>src\gotobed</Filter>
     </ClInclude>
-    <ClInclude Include="src\gotobed\ExtraReservedMarkers.h">
-      <Filter>src\gotobed</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gotobed\ExtraUsedMarkers.h">
-      <Filter>src\gotobed</Filter>
-    </ClInclude>
     <ClInclude Include="src\gotobed\gotobedinit.h">
       <Filter>src\gotobed</Filter>
     </ClInclude>
     <ClInclude Include="src\gotobed\MenuOpenHandler.h">
-      <Filter>src\gotobed</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gotobed\Misc.h">
       <Filter>src\gotobed</Filter>
     </ClInclude>
     <ClInclude Include="src\gotobed\Offsets.h">
@@ -159,9 +141,6 @@
       <Filter>src\gotobed</Filter>
     </ClInclude>
     <ClInclude Include="src\gotobed\SleepwearManager.h">
-      <Filter>src\gotobed</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gotobed\TESObjectREFR.h">
       <Filter>src\gotobed</Filter>
     </ClInclude>
     <ClInclude Include="src\gotobed\UIUtil.h">
@@ -175,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="src\jc\jcdomain.h">
       <Filter>src\jc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gotobed\Fixes.h">
+      <Filter>src\gotobed</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
