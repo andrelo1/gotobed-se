@@ -1,4 +1,5 @@
 #include "EquipMask.h"
+#include "JCApi.h"
 
 namespace Gotobed
 {
@@ -14,12 +15,11 @@ namespace Gotobed
 	EquipMask::EquipMask(std::int32_t a_obj)
 	{
 		if (a_obj) {
-			auto domain = jc::domain::get();
-			armor = jc::JMap::getInt(domain, a_obj, "armor", 0xFFFFFFFF);
-			lhand = jc::JMap::getInt(domain, a_obj, "lhand", 1);
-			rhand = jc::JMap::getInt(domain, a_obj, "rhand", 1);
-			ammo = jc::JMap::getInt(domain, a_obj, "ammo", 1);
-			misc = jc::JMap::getInt(domain, a_obj, "misc", 1);
+			armor = jc::JMap::getInt(a_obj, "armor", 0xFFFFFFFF);
+			lhand = jc::JMap::getInt(a_obj, "lhand", 1);
+			rhand = jc::JMap::getInt(a_obj, "rhand", 1);
+			ammo = jc::JMap::getInt(a_obj, "ammo", 1);
+			misc = jc::JMap::getInt(a_obj, "misc", 1);
 		}
 	}
 
@@ -55,13 +55,12 @@ namespace Gotobed
 
 	EquipMask::operator std::int32_t() const
 	{
-		auto domain = jc::domain::get();
-		auto maskObj = jc::JMap::object(domain);
-		jc::JMap::setInt(domain, maskObj, "armor", armor);
-		jc::JMap::setInt(domain, maskObj, "lhand", lhand);
-		jc::JMap::setInt(domain, maskObj, "rhand", rhand);
-		jc::JMap::setInt(domain, maskObj, "ammo", ammo);
-		jc::JMap::setInt(domain, maskObj, "misc", misc);
+		auto maskObj = jc::JMap::object();
+		jc::JMap::setInt(maskObj, "armor", armor);
+		jc::JMap::setInt(maskObj, "lhand", lhand);
+		jc::JMap::setInt(maskObj, "rhand", rhand);
+		jc::JMap::setInt(maskObj, "ammo", ammo);
+		jc::JMap::setInt(maskObj, "misc", misc);
 
 		return maskObj;
 	}

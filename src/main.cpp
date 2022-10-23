@@ -1,4 +1,3 @@
-#include "jc/jcinit.h"
 #include "gotobed/gotobedinit.h"
 
 namespace
@@ -24,8 +23,8 @@ namespace
 			spdlog::set_default_logger(spdlog::basic_logger_mt("default", path->string(), true));
 		}
 
-		spdlog::set_level(spdlog::level::trace);
-		spdlog::flush_on(spdlog::level::trace);
+		spdlog::set_level(spdlog::level::info);
+		spdlog::flush_on(spdlog::level::info);
 	}
 }
 
@@ -38,9 +37,6 @@ extern "C" __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadIn
 	spdlog::info("loaded");
 
 	SKSE::Init(a_skse);
-#ifndef NOJC
-	jc::init();
-#endif
 	Gotobed::Init();
 
 	return true;

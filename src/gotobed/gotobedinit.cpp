@@ -4,6 +4,7 @@
 #include "AIProcess.h"
 #include "UIUtil.h"
 #include "Fixes.h"
+#include "JCApi.h"
 
 namespace Gotobed
 {
@@ -25,9 +26,15 @@ namespace Gotobed
 		// override Wait button
 		MenuOpenHandler::Init();
 
-#ifndef NOJC
-		AIProcessNS::Init();
-#endif
+		jc::api::init([] (bool a_result) {
+			if (!a_result || !jc::api::setDefaultDomain("GTB_JCDomain")) {
+				return;
+			}
+
+			// add sleepwear behaviour
+			AIProcess::Init();
+		});
+
 		UIUtil::Register();
 
 		Fixes::MultipleMarkersReservation::Install();

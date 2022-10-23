@@ -1,14 +1,14 @@
 #include "Outfit.h"
+#include "JCApi.h"
 
 namespace Gotobed
 {
 	Outfit::Outfit(std::int32_t a_obj)
 	{
 		if (a_obj) {
-			auto domain = jc::domain::get();
-			name = jc::JMap::getStr(domain, a_obj, "name");
-			items = jc::JMap::getObj(domain, a_obj, "items");
-			mask = jc::JMap::getObj(domain, a_obj, "mask");
+			name = jc::JMap::getStr(a_obj, "name");
+			items = jc::JMap::getObj(a_obj, "items");
+			mask = jc::JMap::getObj(a_obj, "mask");
 		}
 	}
 
@@ -27,11 +27,10 @@ namespace Gotobed
 
 	Outfit::operator std::int32_t() const
 	{
-		auto domain = jc::domain::get();
-		auto outfitObj = jc::JMap::object(domain);
-		jc::JMap::setStr(domain, outfitObj, "name", name);
-		jc::JMap::setObj(domain, outfitObj, "items", items);
-		jc::JMap::setObj(domain, outfitObj, "mask", mask);
+		auto outfitObj = jc::JMap::object();
+		jc::JMap::setStr(outfitObj, "name", name);
+		jc::JMap::setObj(outfitObj, "items", items);
+		jc::JMap::setObj(outfitObj, "mask", mask);
 
 		return outfitObj;
 	}

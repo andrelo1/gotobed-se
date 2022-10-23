@@ -9,9 +9,6 @@
 #include <windows.h>
 #include "Detours/include/detours.h"
 
-#define JC_DOMAIN "GTB_JCDomain"
-#include "jc/jc.h"
-
 using namespace std::literals;
 
 #include "version.h"

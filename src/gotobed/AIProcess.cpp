@@ -25,7 +25,7 @@ namespace Gotobed
 		}
 	}
 
-	void AIProcessNS::Init()
+	void AIProcess::Init()
 	{
 		OnSitSleepStateChangeAddr = Offsets::AIProcess::OnSitSleepStateChange.address();
 		auto OnSitSleepStateChangeHookAddr = &AIProcess::OnSitSleepStateChangeHook;

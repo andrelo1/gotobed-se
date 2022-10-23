@@ -37,6 +37,7 @@ namespace Gotobed::Fixes
 		void Install()
 		{
 			stl::write_thunk_call<SetMarkerReserved>(Offsets::BGSProcedureSitSleepExecState::ProcessActivate.address() + 0x02B4);
+			spdlog::info("Fixes: MultipleMarkersReservation applied");
 		}
 	}
 }

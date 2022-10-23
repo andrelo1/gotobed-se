@@ -19,9 +19,6 @@
     <Filter Include="src\gotobed">
       <UniqueIdentifier>{2d5d98c3-3a8d-4d5f-91ad-8d668b97f22c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\jc">
-      <UniqueIdentifier>{585ee2c7-1411-41f8-9ad7-72c30717f60e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -29,24 +26,6 @@
     </ClCompile>
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\jc\JArray.cpp">
-      <Filter>src\jc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\jc\jcinit.cpp">
-      <Filter>src\jc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\jc\JDB.cpp">
-      <Filter>src\jc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\jc\JFormDB.cpp">
-      <Filter>src\jc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\jc\JMap.cpp">
-      <Filter>src\jc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\jc\JValue.cpp">
-      <Filter>src\jc</Filter>
     </ClCompile>
     <ClCompile Include="src\gotobed\Actor.cpp">
       <Filter>src\gotobed</Filter>
@@ -75,16 +54,10 @@
     <ClCompile Include="src\gotobed\UIUtil.cpp">
       <Filter>src\gotobed</Filter>
     </ClCompile>
-    <ClCompile Include="src\jc\jcapi.cpp">
-      <Filter>src\jc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\jc\jcapistorage.cpp">
-      <Filter>src\jc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\jc\jcdomain.cpp">
-      <Filter>src\jc</Filter>
-    </ClCompile>
     <ClCompile Include="src\gotobed\Fixes.cpp">
+      <Filter>src\gotobed</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gotobed\JCApi.cpp">
       <Filter>src\gotobed</Filter>
     </ClCompile>
   </ItemGroup>
@@ -94,27 +67,6 @@
     </ClInclude>
     <ClInclude Include="src\version.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\jc\JArray.h">
-      <Filter>src\jc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\jc\jc.h">
-      <Filter>src\jc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\jc\jcinit.h">
-      <Filter>src\jc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\jc\JDB.h">
-      <Filter>src\jc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\jc\JFormDB.h">
-      <Filter>src\jc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\jc\JMap.h">
-      <Filter>src\jc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\jc\JValue.h">
-      <Filter>src\jc</Filter>
     </ClInclude>
     <ClInclude Include="src\gotobed\Actor.h">
       <Filter>src\gotobed</Filter>
@@ -146,16 +98,10 @@
     <ClInclude Include="src\gotobed\UIUtil.h">
       <Filter>src\gotobed</Filter>
     </ClInclude>
-    <ClInclude Include="src\jc\jcapi.h">
-      <Filter>src\jc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\jc\jcapistorage.h">
-      <Filter>src\jc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\jc\jcdomain.h">
-      <Filter>src\jc</Filter>
-    </ClInclude>
     <ClInclude Include="src\gotobed\Fixes.h">
+      <Filter>src\gotobed</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gotobed\JCApi.h">
       <Filter>src\gotobed</Filter>
     </ClInclude>
   </ItemGroup>
