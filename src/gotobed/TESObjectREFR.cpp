@@ -7,7 +7,11 @@ namespace Gotobed
 {
 	bool TESObjectREFR::SetMarkerReserved_Hook(std::uint32_t a_marker, RE::Actor* a_actor, bool a_reserved, bool a_ignoreUsed)
 	{
+#ifdef VERSION_AE_1_6_640
+		RE::BSWriteLockGuard lock(*reinterpret_cast<RE::BSReadWriteLock*>(reinterpret_cast<std::uint8_t*>(this) + offsetof(RE::TESObjectREFR, extraList) + 0x18));
+#else
 		RE::BSWriteLockGuard lock(*reinterpret_cast<RE::BSReadWriteLock*>(reinterpret_cast<std::uint8_t*>(this) + offsetof(RE::TESObjectREFR, extraList) + 0x10));
+#endif
 		
 		AddChange(0x80000000);
 
@@ -58,7 +62,11 @@ namespace Gotobed
 
 	bool TESObjectREFR::SetMarkerUsed_Hook(std::uint32_t a_marker, RE::Actor* a_actor, bool a_used, bool a_ignoreReserved)
 	{
+#ifdef VERSION_AE_1_6_640
+		RE::BSWriteLockGuard lock(*reinterpret_cast<RE::BSReadWriteLock*>(reinterpret_cast<std::uint8_t*>(this) + offsetof(RE::TESObjectREFR, extraList) + 0x18));
+#else
 		RE::BSWriteLockGuard lock(*reinterpret_cast<RE::BSReadWriteLock*>(reinterpret_cast<std::uint8_t*>(this) + offsetof(RE::TESObjectREFR, extraList) + 0x10));
+#endif
 
 		AddChange(0x80000000);
 
