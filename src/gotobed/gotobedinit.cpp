@@ -5,11 +5,15 @@
 #include "UIUtil.h"
 #include "Fixes.h"
 #include "JCApi.h"
+#include "Settings.h"
 
 namespace Gotobed
 {
 	void Init()
 	{
+		auto& settings = Settings::Get();
+		settings.Read();
+
 		// don't show sleep menu on bed activation
 		REL::safe_write(Offsets::TESFurniture::Activate.address() + 0x0177, static_cast<std::uint16_t>(0x0CEB));
 		// don't show serve time message on bed activation
@@ -37,6 +41,8 @@ namespace Gotobed
 
 		UIUtil::Register();
 
-		Fixes::MultipleMarkersReservation::Install();
+		if (settings.fixes.multipleMarkersReservation) {
+			Fixes::MultipleMarkersReservation::Install();
+		}
 	}
 }

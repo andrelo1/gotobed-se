@@ -11,24 +11,14 @@ namespace Gotobed::Fixes
 			{
 				auto middleHigh = a_actor->currentProcess->middleHigh;
 
-				if (!middleHigh) {
-					return func(a_this, a_marker, a_actor, a_reserved, a_ignoreUsed);
+				if (middleHigh && middleHigh->unk2E4 != a_marker) {					
+					if (middleHigh->unk2E4 != -1) {
+						func(a_this, middleHigh->unk2E4, nullptr, false, false);
+					}
+					middleHigh->unk2E4 = a_marker;
 				}
 
-				if (middleHigh->unk2E4 == a_marker) {
-					return true;
-				}
-
-				if (middleHigh->unk2E4 != -1) {
-					func(a_this, middleHigh->unk2E4, nullptr, false, false);
-					middleHigh->unk2E4 = -1;
-				}
-
-				auto result = func(a_this, a_marker, a_actor, a_reserved, a_ignoreUsed);
-
-				middleHigh->unk2E4 = a_marker;
-
-				return result;
+				return func(a_this, a_marker, a_actor, a_reserved, a_ignoreUsed);
 			}
 
 			static inline REL::Relocation<decltype(&thunk)> func;
@@ -37,7 +27,7 @@ namespace Gotobed::Fixes
 		void Install()
 		{
 			stl::write_thunk_call<SetMarkerReserved>(Offsets::BGSProcedureSitSleepExecState::ProcessActivate.address() + 0x02B4);
-			spdlog::info("Fixes: MultipleMarkersReservation applied");
+			spdlog::info("Fixes: MultipleMarkersReservation installed");
 		}
 	}
 }

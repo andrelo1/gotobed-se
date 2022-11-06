@@ -21,14 +21,15 @@
   <ItemGroup>
     <ClCompile Include="src\gotobed\Actor.cpp" />
     <ClCompile Include="src\gotobed\AIProcess.cpp" />
-    <ClCompile Include="src\gotobed\EquipList.cpp" />
+    <ClCompile Include="src\gotobed\EquipCondition.cpp" />
+    <ClCompile Include="src\gotobed\EquipSequence.cpp" />
     <ClCompile Include="src\gotobed\EquipMask.cpp" />
     <ClCompile Include="src\gotobed\Fixes.cpp" />
     <ClCompile Include="src\gotobed\gotobedinit.cpp" />
     <ClCompile Include="src\gotobed\JCApi.cpp" />
     <ClCompile Include="src\gotobed\MenuOpenHandler.cpp" />
     <ClCompile Include="src\gotobed\Outfit.cpp" />
-    <ClCompile Include="src\gotobed\SleepwearManager.cpp" />
+    <ClCompile Include="src\gotobed\Settings.cpp" />
     <ClCompile Include="src\gotobed\UIUtil.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pch.cpp">
@@ -39,15 +40,18 @@
   <ItemGroup>
     <ClInclude Include="src\gotobed\Actor.h" />
     <ClInclude Include="src\gotobed\AIProcess.h" />
-    <ClInclude Include="src\gotobed\EquipList.h" />
+    <ClInclude Include="src\gotobed\EquipConditions.h" />
+    <ClInclude Include="src\gotobed\EquipSequence.h" />
     <ClInclude Include="src\gotobed\EquipMask.h" />
     <ClInclude Include="src\gotobed\Fixes.h" />
     <ClInclude Include="src\gotobed\gotobedinit.h" />
     <ClInclude Include="src\gotobed\JCApi.h" />
+    <ClInclude Include="src\gotobed\JCTypes.h" />
     <ClInclude Include="src\gotobed\MenuOpenHandler.h" />
     <ClInclude Include="src\gotobed\Offsets.h" />
     <ClInclude Include="src\gotobed\Outfit.h" />
-    <ClInclude Include="src\gotobed\SleepwearManager.h" />
+    <ClInclude Include="src\gotobed\Settings.h" />
+    <ClInclude Include="src\gotobed\SimpleIni.h" />
     <ClInclude Include="src\gotobed\UIUtil.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\version.h" />

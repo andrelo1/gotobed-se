@@ -3,35 +3,38 @@
 
 namespace Gotobed
 {
-	Outfit::Outfit(std::int32_t a_obj)
-	{
-		if (a_obj) {
-			name = jc::JMap::getStr(a_obj, "name");
-			items = jc::JMap::getObj(a_obj, "items");
-			mask = jc::JMap::getObj(a_obj, "mask");
-		}
-	}
-
-	Outfit::Outfit(EquipList&& a_list) : items(std::move(a_list))
-	{
-	}
-
-	Outfit::Outfit(const RE::BGSOutfit& a_outfit)
+	Outfit::Outfit(RE::BGSOutfit const& a_outfit)
 	{
 		for (auto& item : a_outfit.outfitItems) {
 			if (item && item->IsBoundObject()) {
-				items.entries.push_back({ static_cast<RE::TESBoundObject*>(item), 1, nullptr });
+				items.push_back({ static_cast<RE::TESBoundObject*>(item), 1, nullptr });
 			}
 		}
 	}
 
-	Outfit::operator std::int32_t() const
+	template<>
+	Outfit FromJC(jc::Handle a_jcoutfit)
 	{
-		auto outfitObj = jc::JMap::object();
-		jc::JMap::setStr(outfitObj, "name", name);
-		jc::JMap::setObj(outfitObj, "items", items);
-		jc::JMap::setObj(outfitObj, "mask", mask);
+		Outfit outfit;
 
-		return outfitObj;
+		if (a_jcoutfit != jc::Handle::Null) {
+			outfit.name = jc::JMap::getStr(a_jcoutfit, "name");
+			outfit.items = FromJC<EquipSequence>(jc::JMap::getObj(a_jcoutfit, "items"));
+			outfit.mask = FromJC<EquipMask>(jc::JMap::getObj(a_jcoutfit, "mask"));
+		}
+
+		return outfit;
+	}
+
+	template<>
+	jc::Handle ToJC(Outfit const& a_outfit)
+	{
+		auto jcoutfit = jc::JMap::object();
+
+		jc::JMap::setStr(jcoutfit, "name", a_outfit.name);
+		jc::JMap::setObj(jcoutfit, "items", ToJC(a_outfit.items));
+		jc::JMap::setObj(jcoutfit, "mask", ToJC(a_outfit.mask));
+
+		return jcoutfit;
 	}
 }

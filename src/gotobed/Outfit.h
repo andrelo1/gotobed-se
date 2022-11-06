@@ -1,21 +1,28 @@
 #pragma once
 
-#include "EquipList.h"
+#include "EquipSequence.h"
 #include "EquipMask.h"
+#include "JCTypes.h"
 
 namespace Gotobed
 {
 	struct Outfit
 	{
 		Outfit() = default;
-		Outfit(EquipList&& a_list);
-		Outfit(std::int32_t a_obj);
-		Outfit(const RE::BGSOutfit& a_outfit);
+		Outfit(RE::BGSOutfit const& a_outfit);
 
-		operator std::int32_t() const;
-
-		std::string	name;
-		EquipList	items;
-		EquipMask	mask;
+		std::string		name;
+		EquipSequence	items;
+		EquipMask		mask;
 	};
+
+	template<class T>
+	T FromJC(jc::Handle);
+	template<>
+	Outfit FromJC(jc::Handle a_jcoutfit);
+
+	template<class T>
+	jc::Handle ToJC(T const&);
+	template<>
+	jc::Handle ToJC(Outfit const& a_outfit);
 }

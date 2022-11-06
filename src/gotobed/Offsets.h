@@ -17,6 +17,7 @@ namespace Gotobed::Offsets
 	namespace TESObjectREFR
 	{
 		constexpr REL::ID GetCurrentLocation{ static_cast<std::uint64_t>(19812) };
+		constexpr REL::ID GetFreeMarker{ static_cast<std::uint64_t>(20162) };
 		constexpr REL::ID SetMarkerReserved{ static_cast<std::uint64_t>(20160) };
 		constexpr REL::ID SetMarkerUsed{ static_cast<std::uint64_t>(20159) };
 	}
@@ -46,10 +47,12 @@ namespace Gotobed::Offsets
 	{
 		constexpr REL::ID OnSitSleepStateChange{ static_cast<std::uint64_t>(39912) };
 		constexpr REL::ID sub_674B60{ static_cast<std::uint64_t>(39292) };
+		constexpr REL::ID SetTarget{ static_cast<std::uint64_t>(39139) };
 	}
 
 	namespace BGSProcedureSitSleepExecState
 	{
+		constexpr REL::ID Process{ static_cast<std::uint64_t>(29144) };
 		constexpr REL::ID ProcessActivate{ static_cast<std::uint64_t>(29150) };
 	}
 
