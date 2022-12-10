@@ -1,0 +1,9 @@
+{
+	"name": "gotobed",
+	"version": "1.0.0.0",
+	"dependencies": [
+		"commonlibsse",
+		"detours",
+		"jcontainers"
+	]
+}

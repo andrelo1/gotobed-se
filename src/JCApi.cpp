@@ -1,5 +1,5 @@
 #include "jcapi.h"
-#include "JContainers/src/JContainers/src/jc_interface.h"
+#include "jcontainers/jc_interface.h"
 
 namespace jc
 {
@@ -22,7 +22,7 @@ namespace jc
 				float				(*JDB_solveFlt)(void*, RE::BSFixedString, float) { nullptr };
 				std::int32_t		(*JDB_solveInt)(void*, RE::BSFixedString, std::int32_t) { nullptr };
 				RE::BSFixedString	(*JDB_solveStr)(void*, RE::BSFixedString, RE::BSFixedString) { nullptr };
-				Handle		(*JDB_solveObj)(void*, RE::BSFixedString, Handle) { nullptr };
+				Handle				(*JDB_solveObj)(void*, RE::BSFixedString, Handle) { nullptr };
 				RE::TESForm*		(*JDB_solveForm)(void*, RE::BSFixedString, RE::TESForm*) { nullptr };
 				bool				(*JDB_solveFltSetter)(void*, RE::BSFixedString, float, bool) { nullptr };
 				bool				(*JDB_solveIntSetter)(void*, RE::BSFixedString, std::int32_t, bool) { nullptr };
@@ -31,19 +31,19 @@ namespace jc
 				bool				(*JDB_solveFormSetter)(void*, RE::BSFixedString, RE::TESForm*, bool) { nullptr };
 				void				(*JDB_setObj)(void*, RE::BSFixedString, Handle) { nullptr };
 				bool				(*JDB_hasPath)(void*, RE::BSFixedString) { nullptr };
-				Handle		(*JDB_allKeys)(void*) { nullptr };
-				Handle		(*JDB_allValues)(void*) { nullptr };
+				Handle				(*JDB_allKeys)(void*) { nullptr };
+				Handle				(*JDB_allValues)(void*) { nullptr };
 				void				(*JDB_writeToFile)(void*, RE::BSFixedString) { nullptr };
 				void				(*JDB_readFromFile)(void*, RE::BSFixedString) { nullptr };
-				Handle		(*JDB_root)(void*) { nullptr };
+				Handle				(*JDB_root)(void*) { nullptr };
 
 				void				(*JFormDB_setEntry)(void*, RE::BSFixedString, RE::TESForm*, Handle) { nullptr };
-				Handle		(*JFormDB_makeEntry)(void*, RE::BSFixedString, RE::TESForm*) { nullptr };
-				Handle		(*JFormDB_findEntry)(void*, RE::BSFixedString, RE::TESForm*) { nullptr };
+				Handle				(*JFormDB_makeEntry)(void*, RE::BSFixedString, RE::TESForm*) { nullptr };
+				Handle				(*JFormDB_findEntry)(void*, RE::BSFixedString, RE::TESForm*) { nullptr };
 				float				(*JFormDB_solveFlt)(void*, RE::TESForm*, RE::BSFixedString, float) { nullptr };
 				std::int32_t		(*JFormDB_solveInt)(void*, RE::TESForm*, RE::BSFixedString, std::int32_t) { nullptr };
 				RE::BSFixedString	(*JFormDB_solveStr)(void*, RE::TESForm*, RE::BSFixedString, RE::BSFixedString) { nullptr };
-				Handle		(*JFormDB_solveObj)(void*, RE::TESForm*, RE::BSFixedString, Handle) { nullptr };
+				Handle				(*JFormDB_solveObj)(void*, RE::TESForm*, RE::BSFixedString, Handle) { nullptr };
 				RE::TESForm*		(*JFormDB_solveForm)(void*, RE::TESForm*, RE::BSFixedString, RE::TESForm*) { nullptr };
 				bool				(*JFormDB_solveFltSetter)(void*, RE::TESForm*, RE::BSFixedString, float, bool) { nullptr };
 				bool				(*JFormDB_solveIntSetter)(void*, RE::TESForm*, RE::BSFixedString, std::int32_t, bool) { nullptr };
@@ -51,12 +51,12 @@ namespace jc
 				bool				(*JFormDB_solveObjSetter)(void*, RE::TESForm*, RE::BSFixedString, Handle, bool) { nullptr };
 				bool				(*JFormDB_solveFormSetter)(void*, RE::TESForm*, RE::BSFixedString, RE::TESForm*, bool) { nullptr };
 				bool				(*JFormDB_hasPath)(void*, RE::TESForm*, RE::BSFixedString) { nullptr };
-				Handle		(*JFormDB_allKeys)(void*, RE::TESForm*, RE::BSFixedString) { nullptr };
-				Handle		(*JFormDB_allValues)(void*, RE::TESForm*, RE::BSFixedString) { nullptr };
+				Handle				(*JFormDB_allKeys)(void*, RE::TESForm*, RE::BSFixedString) { nullptr };
+				Handle				(*JFormDB_allValues)(void*, RE::TESForm*, RE::BSFixedString) { nullptr };
 				std::int32_t		(*JFormDB_getInt)(void*, RE::TESForm*, RE::BSFixedString) { nullptr };
 				float				(*JFormDB_getFlt)(void*, RE::TESForm*, RE::BSFixedString) { nullptr };
 				RE::BSFixedString	(*JFormDB_getStr)(void*, RE::TESForm*, RE::BSFixedString) { nullptr };
-				Handle		(*JFormDB_getObj)(void*, RE::TESForm*, RE::BSFixedString) { nullptr };
+				Handle				(*JFormDB_getObj)(void*, RE::TESForm*, RE::BSFixedString) { nullptr };
 				RE::TESForm*		(*JFormDB_getForm)(void*, RE::TESForm*, RE::BSFixedString) { nullptr };
 				void				(*JFormDB_setInt)(void*, RE::TESForm*, RE::BSFixedString, std::int32_t) { nullptr };
 				void				(*JFormDB_setFlt)(void*, RE::TESForm*, RE::BSFixedString, float) { nullptr };
@@ -64,15 +64,15 @@ namespace jc
 				void				(*JFormDB_setObj)(void*, RE::TESForm*, RE::BSFixedString, Handle) { nullptr };
 				void				(*JFormDB_setForm)(void*, RE::TESForm*, RE::BSFixedString, RE::TESForm*) { nullptr };
 
-				Handle		(*JValue_retain)(void*, Handle, RE::BSFixedString) { nullptr };
-				Handle		(*JValue_release)(void*, Handle) { nullptr };
-				Handle		(*JValue_releaseAndRetain)(void*, Handle, Handle, RE::BSFixedString) { nullptr };
+				Handle				(*JValue_retain)(void*, Handle, RE::BSFixedString) { nullptr };
+				Handle				(*JValue_release)(void*, Handle) { nullptr };
+				Handle				(*JValue_releaseAndRetain)(void*, Handle, Handle, RE::BSFixedString) { nullptr };
 				void				(*JValue_releaseObjectsWithTag)(void*, RE::BSFixedString) { nullptr };
-				Handle		(*JValue_zeroLifetime)(void*, Handle) { nullptr };
-				Handle		(*JValue_addToPool)(void*, Handle, RE::BSFixedString) { nullptr };
+				Handle				(*JValue_zeroLifetime)(void*, Handle) { nullptr };
+				Handle				(*JValue_addToPool)(void*, Handle, RE::BSFixedString) { nullptr };
 				void				(*JValue_cleanPool)(void*, RE::BSFixedString) { nullptr };
-				Handle		(*JValue_shallowCopy)(void*, Handle) { nullptr };
-				Handle		(*JValue_deepCopy)(void*, Handle) { nullptr };
+				Handle				(*JValue_shallowCopy)(void*, Handle) { nullptr };
+				Handle				(*JValue_deepCopy)(void*, Handle) { nullptr };
 				bool				(*JValue_isExists)(void*, Handle) { nullptr };
 				bool				(*JValue_isArray)(void*, Handle) { nullptr };
 				bool				(*JValue_isMap)(void*, Handle) { nullptr };
@@ -81,16 +81,16 @@ namespace jc
 				bool				(*JValue_empty)(void*, Handle) { nullptr };
 				std::int32_t		(*JValue_count)(void*, Handle) { nullptr };
 				void				(*JValue_clear)(void*, Handle) { nullptr };
-				Handle		(*JValue_readFromFile)(void*, RE::BSFixedString) { nullptr };
-				Handle		(*JValue_readFromDirectory)(void*, RE::BSFixedString, RE::BSFixedString) { nullptr };
-				Handle		(*JValue_objectFromPrototype)(void*, RE::BSFixedString) { nullptr };
+				Handle				(*JValue_readFromFile)(void*, RE::BSFixedString) { nullptr };
+				Handle				(*JValue_readFromDirectory)(void*, RE::BSFixedString, RE::BSFixedString) { nullptr };
+				Handle				(*JValue_objectFromPrototype)(void*, RE::BSFixedString) { nullptr };
 				void				(*JValue_writeToFile)(void*, Handle, RE::BSFixedString) { nullptr };
 				bool				(*JValue_hasPath)(void*, Handle, RE::BSFixedString) { nullptr };
 				std::int32_t		(*JValue_solvedValueType)(void*, Handle, RE::BSFixedString) { nullptr };
 				float				(*JValue_solveFlt)(void*, Handle, RE::BSFixedString, float) { nullptr };
 				std::int32_t		(*JValue_solveInt)(void*, Handle, RE::BSFixedString, std::int32_t) { nullptr };
 				RE::BSFixedString	(*JValue_solveStr)(void*, Handle, RE::BSFixedString, RE::BSFixedString) { nullptr };
-				Handle		(*JValue_solveObj)(void*, Handle, RE::BSFixedString, Handle) { nullptr };
+				Handle				(*JValue_solveObj)(void*, Handle, RE::BSFixedString, Handle) { nullptr };
 				RE::TESForm*		(*JValue_solveForm)(void*, Handle, RE::BSFixedString, RE::TESForm*) { nullptr };
 				bool				(*JValue_solveFltSetter)(void*, Handle, RE::BSFixedString, float, bool) { nullptr };
 				bool				(*JValue_solveIntSetter)(void*, Handle, RE::BSFixedString, std::int32_t, bool) { nullptr };
@@ -100,23 +100,23 @@ namespace jc
 				float				(*JValue_evalLuaFlt)(void*, Handle, RE::BSFixedString, float) { nullptr };
 				std::int32_t		(*JValue_evalLuaInt)(void*, Handle, RE::BSFixedString, std::int32_t) { nullptr };
 				RE::BSFixedString	(*JValue_evalLuaStr)(void*, Handle, RE::BSFixedString, RE::BSFixedString) { nullptr };
-				Handle		(*JValue_evalLuaObj)(void*, Handle, RE::BSFixedString, Handle) { nullptr };
+				Handle				(*JValue_evalLuaObj)(void*, Handle, RE::BSFixedString, Handle) { nullptr };
 				RE::TESForm*		(*JValue_evalLuaForm)(void*, Handle, RE::BSFixedString, RE::TESForm*) { nullptr };
 
-				Handle		(*JArray_object)(void*) { nullptr };
-				Handle		(*JArray_objectWithSize)(void*, std::int32_t) { nullptr };
-				Handle		(*JArray_objectWithInts)(void*, RE::BSTSmartPointer<RE::BSScript::Array>) { nullptr };
-				Handle		(*JArray_objectWithStrings)(void*, RE::BSTSmartPointer<RE::BSScript::Array>) { nullptr };
-				Handle		(*JArray_objectWithFloats)(void*, RE::BSTSmartPointer<RE::BSScript::Array>) { nullptr };
-				Handle		(*JArray_objectWithBooleans)(void*, RE::BSTSmartPointer<RE::BSScript::Array>) { nullptr };
-				Handle		(*JArray_objectWithForms)(void*, RE::BSTSmartPointer<RE::BSScript::Array>) { nullptr };
-				Handle		(*JArray_subArray)(void*, Handle, std::int32_t, std::int32_t) { nullptr };
+				Handle				(*JArray_object)(void*) { nullptr };
+				Handle				(*JArray_objectWithSize)(void*, std::int32_t) { nullptr };
+				Handle				(*JArray_objectWithInts)(void*, RE::BSTSmartPointer<RE::BSScript::Array>) { nullptr };
+				Handle				(*JArray_objectWithStrings)(void*, RE::BSTSmartPointer<RE::BSScript::Array>) { nullptr };
+				Handle				(*JArray_objectWithFloats)(void*, RE::BSTSmartPointer<RE::BSScript::Array>) { nullptr };
+				Handle				(*JArray_objectWithBooleans)(void*, RE::BSTSmartPointer<RE::BSScript::Array>) { nullptr };
+				Handle				(*JArray_objectWithForms)(void*, RE::BSTSmartPointer<RE::BSScript::Array>) { nullptr };
+				Handle				(*JArray_subArray)(void*, Handle, std::int32_t, std::int32_t) { nullptr };
 				void				(*JArray_addFromArray)(void*, Handle, Handle, std::int32_t) { nullptr };
 				void				(*JArray_addFromFormList)(void*, Handle, RE::BGSListForm*, std::int32_t) { nullptr };
 				std::int32_t		(*JArray_getInt)(void*, Handle, std::int32_t, std::int32_t) { nullptr };
 				float				(*JArray_getFlt)(void*, Handle, std::int32_t, float) { nullptr };
 				RE::BSFixedString	(*JArray_getStr)(void*, Handle, std::int32_t, RE::BSFixedString) { nullptr };
-				Handle		(*JArray_getObj)(void*, Handle, std::int32_t, Handle) { nullptr };
+				Handle				(*JArray_getObj)(void*, Handle, std::int32_t, Handle) { nullptr };
 				RE::TESForm*		(*JArray_getForm)(void*, Handle, std::int32_t, RE::TESForm*) { nullptr };
 				std::int32_t		(*JArray_findInt)(void*, Handle, std::int32_t, std::int32_t) { nullptr };
 				std::int32_t		(*JArray_findFlt)(void*, Handle, float, std::int32_t) { nullptr };
@@ -139,18 +139,18 @@ namespace jc
 				void				(*JArray_eraseRange)(void*, Handle, std::int32_t, std::int32_t) { nullptr };
 				std::int32_t		(*JArray_valueType)(void*, Handle, std::int32_t) { nullptr };
 				void				(*JArray_swapItems)(void*, Handle, std::int32_t, std::int32_t) { nullptr };
-				Handle		(*JArray_sort)(void*, Handle) { nullptr };
-				Handle		(*JArray_unique)(void*, Handle) { nullptr };
+				Handle				(*JArray_sort)(void*, Handle) { nullptr };
+				Handle				(*JArray_unique)(void*, Handle) { nullptr };
 				bool				(*JArray_writeToIntegerPArray)(void*, Handle, RE::BSTSmartPointer<RE::BSScript::Array>, std::int32_t, std::int32_t, std::int32_t, std::int32_t) { nullptr };
 				bool				(*JArray_writeToFloatPArray)(void*, Handle, RE::BSTSmartPointer<RE::BSScript::Array>, std::int32_t, std::int32_t, std::int32_t, float) { nullptr };
 				bool				(*JArray_writeToFormPArray)(void*, Handle, RE::BSTSmartPointer<RE::BSScript::Array>, std::int32_t, std::int32_t, std::int32_t, RE::TESForm*) { nullptr };
 				bool				(*JArray_writeToStringPArray)(void*, Handle, RE::BSTSmartPointer<RE::BSScript::Array>, std::int32_t, std::int32_t, std::int32_t, RE::BSFixedString) { nullptr };
 
-				Handle		(*JMap_object)(void*) { nullptr };
+				Handle				(*JMap_object)(void*) { nullptr };
 				std::int32_t		(*JMap_getInt)(void*, Handle, RE::BSFixedString, std::int32_t) { nullptr };
 				float				(*JMap_getFlt)(void*, Handle, RE::BSFixedString, float) { nullptr };
 				RE::BSFixedString	(*JMap_getStr)(void*, Handle, RE::BSFixedString, RE::BSFixedString) { nullptr };
-				Handle		(*JMap_getObj)(void*, Handle, RE::BSFixedString, Handle) { nullptr };
+				Handle				(*JMap_getObj)(void*, Handle, RE::BSFixedString, Handle) { nullptr };
 				RE::TESForm*		(*JMap_getForm)(void*, Handle, RE::BSFixedString, RE::TESForm*) { nullptr };
 				void				(*JMap_setInt)(void*, Handle, RE::BSFixedString, std::int32_t) { nullptr };
 				void				(*JMap_setFlt)(void*, Handle, RE::BSFixedString, float) { nullptr };
@@ -159,9 +159,9 @@ namespace jc
 				void				(*JMap_setForm)(void*, Handle, RE::BSFixedString, RE::TESForm*) { nullptr };
 				bool				(*JMap_hasKey)(void*, Handle, RE::BSFixedString) { nullptr };
 				std::int32_t		(*JMap_valueType)(void*, Handle, RE::BSFixedString) { nullptr };
-				Handle		(*JMap_allKeys)(void*, Handle) { nullptr };
+				Handle				(*JMap_allKeys)(void*, Handle) { nullptr };
 				std::vector<RE::BSFixedString>	(*JMap_allKeysPArray)(void*, Handle) { nullptr };
-				Handle		(*JMap_allValues)(void*, Handle) { nullptr };
+				Handle				(*JMap_allValues)(void*, Handle) { nullptr };
 				bool				(*JMap_removeKey)(void*, Handle, RE::BSFixedString) { nullptr };
 				std::int32_t		(*JMap_count)(void*, Handle) { nullptr };
 				void				(*JMap_clear)(void*, Handle) { nullptr };

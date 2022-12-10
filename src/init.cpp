@@ -1,4 +1,4 @@
-#include "gotobedinit.h"
+#include "init.h"
 #include "Offsets.h"
 #include "MenuOpenHandler.h"
 #include "AIProcess.h"

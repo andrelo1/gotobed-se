@@ -1,9 +1,0 @@
-[submodule "CommonLibSSE"]
-	path = ext/CommonLibSSE
-	url = https://github.com/Ryan-rsm-McKenzie/CommonLibSSE
-[submodule "Detours"]
-	path = ext/Detours
-	url = https://github.com/microsoft/Detours
-[submodule "JContainers"]
-	path = ext/JContainers
-	url = https://github.com/ryobg/JContainers
