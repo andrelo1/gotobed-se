@@ -6,6 +6,7 @@ project(gotobed VERSION 1.0.0.0)
 
 find_package(CommonLibSSE REQUIRED)
 find_package(Detours REQUIRED)
+find_package(nlohmann_json REQUIRED)
 find_path(JCONTAINERS_INCLUDE_DIRS jcontainers/jc_interface.h)
 
 configure_file(cmake/version.h.in version.h)
@@ -41,7 +42,6 @@ target_sources("${PROJECT_NAME}"
 	src/pch.h
 	src/Settings.cpp
 	src/Settings.h
-	src/SimpleIni.h
 	src/UIUtil.cpp
 	src/UIUtil.h
 	"${PROJECT_BINARY_DIR}/version.h"
@@ -68,6 +68,7 @@ target_link_libraries("${PROJECT_NAME}"
 	PRIVATE
 	CommonLibSSE::CommonLibSSE
 	Detours::Detours
+	nlohmann_json::nlohmann_json
 )
 
 install(TARGETS "${PROJECT_NAME}" RUNTIME DESTINATION "${SKYRIM_ROOT}/data/skse/plugins")

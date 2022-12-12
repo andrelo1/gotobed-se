@@ -1,23 +1,19 @@
 #include "Settings.h"
-#include "SimpleIni.h"
 
 namespace Gotobed
 {
-	namespace
+	namespace detail
 	{
-		std::filesystem::path GetIniPath()
-		{
-			wchar_t buf[4096] = L"";
+		std::filesystem::path GetSettingsPath() {
+			std::vector<wchar_t> buf(4096);
+			auto size = GetModuleFileNameW(nullptr, &buf[0], buf.size());
 
-			std::uint32_t size = GetModuleFileNameW(NULL, buf, static_cast<DWORD>(std::size(buf)));
-
-			if (size == 0 || size == std::size(buf)) {
+			if (size == 0 || size == buf.size()) {
+				spdlog::error("error getting settings path: {}", GetLastError());
 				return "";
 			}
 
-			std::filesystem::path path{ buf };
-
-			return path.replace_filename(L"Data\\SKSE\\Plugins\\gotobed.ini");
+			return std::filesystem::path(&buf[0]).replace_filename(L"Data\\SKSE\\Plugins\\gotobed\\settings.json");
 		}
 	}
 
@@ -29,27 +25,21 @@ namespace Gotobed
 
 	void Settings::Read()
 	{
-		CSimpleIniA ini;
-		auto path = GetIniPath();
-
-		if (ini.LoadFile(path.c_str()) != SI_OK) {
-			return;
+		try {
+			std::ifstream f(detail::GetSettingsPath());
+			*this = json::parse(f).get<Settings>();
+		} catch (json::exception& e) {
+			spdlog::error("error reading settings: {}", e.what());
 		}
-
-		sleepwear.vanillaSleepOutfit = ini.GetBoolValue("Sleepwear", "VanillaSleepOutfit", sleepwear.vanillaSleepOutfit);
-		fixes.multipleMarkersReservation = ini.GetBoolValue("Fixes", "MultipleMarkersReservation", fixes.multipleMarkersReservation);
 	}
 
 	void Settings::Write()
 	{
-		CSimpleIniA ini;
-		auto path = GetIniPath();
-
-		ini.LoadFile(path.c_str());
-
-		ini.SetBoolValue("Sleepwear", "VanillaSleepOutfit", sleepwear.vanillaSleepOutfit);
-		ini.SetBoolValue("Fixes", "MultipleMarkersReservation", fixes.multipleMarkersReservation);
-
-		ini.SaveFile(path.c_str());
+		try {
+			std::ofstream f(detail::GetSettingsPath());
+			f << std::setw(4) << json(*this);
+		} catch (json::exception& e) {
+			spdlog::error("error writing settings: {}", e.what());
+		}
 	}
 }

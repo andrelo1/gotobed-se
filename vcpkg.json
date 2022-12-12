@@ -4,6 +4,7 @@
 	"dependencies": [
 		"commonlibsse",
 		"detours",
-		"jcontainers"
+		"jcontainers",
+		"nlohmann-json"
 	]
 }

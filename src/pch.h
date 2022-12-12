@@ -8,6 +8,9 @@
 #include <windows.h>
 #include "detours/detours.h"
 
+#include "nlohmann/json.hpp"
+using json = nlohmann::json;
+
 namespace stl
 {
 	template <class T>

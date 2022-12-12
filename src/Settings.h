@@ -6,12 +6,12 @@ namespace Gotobed
 	{
 		struct Sleepwear
 		{
-			bool	vanillaSleepOutfit{ true };
+			bool	vanillaSleepOutfit{true};
 		};
 
 		struct Fixes
 		{
-			bool	multipleMarkersReservation{ true };
+			bool	multipleMarkersReservation{true};
 		};
 
 		static Settings&	Get();
@@ -22,4 +22,8 @@ namespace Gotobed
 		Sleepwear	sleepwear;
 		Fixes		fixes;
 	};
+
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Settings::Sleepwear, vanillaSleepOutfit)
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Settings::Fixes, multipleMarkersReservation)
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Settings, sleepwear, fixes)
 }
