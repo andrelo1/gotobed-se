@@ -6,9 +6,9 @@ namespace Gotobed
 {
 	struct EquipParams
 	{
-		RE::TESBoundObject*	item{ nullptr };
-		std::int32_t		count{ 0 };
-		RE::BGSEquipSlot*	slot{ nullptr };
+		RE::TESBoundObject*	item{nullptr};
+		std::int32_t		count{0};
+		RE::BGSEquipSlot*	slot{nullptr};
 	};
 
 	using EquipSequence = std::vector<EquipParams>;

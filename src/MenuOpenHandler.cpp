@@ -11,12 +11,12 @@ namespace Gotobed
 
 	bool MenuOpenHandler::ProcessButtonOrig(RE::ButtonEvent* a_event) {
 		using func_t = decltype(&MenuOpenHandler::ProcessButtonOrig);
-		REL::Relocation<func_t> func{ ProcessButtonAddr };
+		REL::Relocation<func_t> func{ProcessButtonAddr};
 		return func(this, a_event);
 	}
 
 	bool MenuOpenHandler::ProcessButtonHook(RE::ButtonEvent* a_event) {
-		REL::Relocation<std::uint8_t*> unk_2FE95F8{ Offsets::unk_2FE95F8 };
+		REL::Relocation<std::uint8_t*> unk_2FE95F8{Offsets::unk_2FE95F8};
 
 		if (a_event && a_event->userEvent == "Wait" && a_event->IsDown()) {
 			if (OnWaitButtonDown()) {

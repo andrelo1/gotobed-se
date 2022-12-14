@@ -9,11 +9,11 @@ namespace Gotobed
 	{
 		bool	operator()(EquipParams const& a_params) const;
 
-		std::uint32_t	armor{ 0xFFFFFFFF };
-		bool			lhand{ true };
-		bool			rhand{ true };
-		bool			ammo{ true };
-		bool			misc{ true };
+		std::uint32_t	armor{0xFFFFFFFF};
+		bool			lhand{true};
+		bool			rhand{true};
+		bool			ammo{true};
+		bool			misc{true};
 	};
 
 	template<class T>

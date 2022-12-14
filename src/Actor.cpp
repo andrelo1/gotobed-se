@@ -70,7 +70,7 @@ namespace Gotobed
 
 	RE::BGSLocation* Actor::GetCurrentLocation() {
 		using func_t = decltype(&Actor::GetCurrentLocation);
-		REL::Relocation<func_t> func{ Offsets::TESObjectREFR::GetCurrentLocation };
+		REL::Relocation<func_t> func{Offsets::TESObjectREFR::GetCurrentLocation};
 		return func(this);
 	}
 

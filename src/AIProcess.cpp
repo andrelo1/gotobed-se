@@ -6,12 +6,12 @@ namespace Gotobed
 {
 	namespace
 	{
-		std::uintptr_t OnSitSleepStateChangeAddr{ 0 };
+		std::uintptr_t OnSitSleepStateChangeAddr{0};
 	}
 
 	void AIProcess::OnSitSleepStateChange(Actor* a_actor, std::uint32_t a_newState, RE::RefHandle& a_refHandle, std::int32_t a_marker) {
 		using func_t = decltype(&AIProcess::OnSitSleepStateChange);
-		REL::Relocation<func_t> func{ OnSitSleepStateChangeAddr };
+		REL::Relocation<func_t> func{OnSitSleepStateChangeAddr};
 		func(this, a_actor, a_newState, a_refHandle, a_marker);
 	}
 

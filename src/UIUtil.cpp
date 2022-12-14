@@ -4,7 +4,7 @@ namespace Gotobed::UIUtil
 {
 	void ShowSleepWaitMenu(bool a_sleep) {
 		using func_t = decltype(&ShowSleepWaitMenu);
-		REL::Relocation<func_t> func{ Offsets::ShowSleepWaitMenu };
+		REL::Relocation<func_t> func{Offsets::ShowSleepWaitMenu};
 		func(a_sleep);
 	}
 
