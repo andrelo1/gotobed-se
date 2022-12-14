@@ -6,7 +6,8 @@ namespace jc
 {
 	namespace api
 	{
-		void	init(std::function<void(bool)> a_onInitComplete = nullptr);
+		bool	ready();
+		void	init(std::function<void()> a_onInitComplete = {});
 		bool	setDefaultDomain(const char* a_name = "");
 	}
 

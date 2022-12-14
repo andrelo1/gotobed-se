@@ -42,8 +42,12 @@ target_sources("${PROJECT_NAME}"
 	src/pch.h
 	src/Settings.cpp
 	src/Settings.h
+	src/SKSEMessaging.cpp
+	src/SKSEMessaging.h
 	src/UIUtil.cpp
 	src/UIUtil.h
+	src/UIUtilPapyrus.cpp
+	src/UIUtilPapyrus.h
 	"${PROJECT_BINARY_DIR}/version.h"
 	"${PROJECT_BINARY_DIR}/version.rc"
 )

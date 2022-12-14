@@ -1,16 +1,17 @@
 #include "init.h"
+#include "Settings.h"
 #include "Offsets.h"
 #include "MenuOpenHandler.h"
 #include "AIProcess.h"
-#include "UIUtil.h"
+#include "UIUtilPapyrus.h"
 #include "Fixes.h"
 #include "JCApi.h"
-#include "Settings.h"
+#include "SKSEMessaging.h"
+#include "UIUtil.h"
 
 namespace Gotobed
 {
-	void Init()
-	{
+	void Init() {
 		auto& settings = Settings::Get();
 		settings.Read();
 
@@ -27,22 +28,35 @@ namespace Gotobed
 		REL::safe_write(Offsets::AIProcess::sub_674B60.address() + 0x013C, static_cast<std::uint8_t>(0xEB));
 		REL::safe_write(Offsets::Actor::FinishLoadGame.address() + 0x01B3, static_cast<std::uint8_t>(0xEB));
 
-		// override Wait button
+		// hook Wait button
 		MenuOpenHandler::Init();
 
-		jc::api::init([] (bool a_result) {
-			if (!a_result || !jc::api::setDefaultDomain("GTB_JCDomain")) {
-				return;
-			}
-
-			// add sleepwear behaviour
-			AIProcess::Init();
-		});
-
-		UIUtil::Register();
-
+		// install fixes
 		if (settings.fixes.multipleMarkersReservation) {
 			Fixes::MultipleMarkersReservation::Install();
 		}
+
+		jc::api::init([]() {
+			if (!jc::api::ready() || !jc::api::setDefaultDomain("GTB_JCDomain")) {
+				return;
+			}
+
+			// hook actor sleep state
+			AIProcess::Init();
+		});
+
+		SKSE::Messaging::RegisterForSKSE([](SKSE::MessagingInterface::Message* a_msg) {
+			if (a_msg && a_msg->type == SKSE::MessagingInterface::kPostLoadGame) {
+				if (!jc::api::ready()) {
+					std::thread([]() {
+						std::this_thread::sleep_for(std::chrono::seconds(5));
+						UIUtil::ShowMessageBox("GOTOBED\n\nError: JContainers api was not initialized.\nSome features won't be available.", nullptr, 0, 4, 10, "OK", nullptr);
+					}).detach();
+				}
+			}
+		});
+
+		// register papyrus
+		UIUtilPapyrus::Register();
 	}
 }

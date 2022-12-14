@@ -1,41 +1,12 @@
 #include "MenuOpenHandler.h"
 #include "Offsets.h"
+#include "UIUtil.h"
 
 namespace Gotobed
 {
 	namespace
 	{
-		std::uintptr_t	ProcessButtonAddr{ 0 };
-
-		template<class... Args>
-		bool ShowMessageBox(const char* a_msg, void (*a_callback)(std::uint8_t), std::uint8_t a_unk3, std::uint32_t a_unk4, std::uint32_t a_unk5, Args... a_args)
-		{
-			using func_t = decltype(&ShowMessageBox<Args...>);
-			REL::Relocation<func_t> func{ Offsets::ShowMessageBox };
-			return func(a_msg, a_callback, a_unk3, a_unk4, a_unk5, a_args...);
-		}
-
-		void ShowSleepWaitMenu(bool a_sleep)
-		{
-			using func_t = decltype(&ShowSleepWaitMenu);
-			REL::Relocation<func_t> func{ Offsets::ShowSleepWaitMenu };
-			func(a_sleep);
-		}
-
-		void ShowServeSentenceQuestion()
-		{
-			auto settings = RE::GameSettingCollection::GetSingleton();
-			auto sServeSentenceQuestion = settings->GetSetting("sServeSentenceQuestion")->GetString();
-			auto sYes = settings->GetSetting("sYes")->GetString();
-			auto sNo = settings->GetSetting("sNo")->GetString();
-			auto callback = [](std::uint8_t a_idx) {
-				if (a_idx == 1) {
-					RE::PlayerCharacter::GetSingleton()->ServePrisonTime();
-				}
-			};
-
-			ShowMessageBox(sServeSentenceQuestion, callback, 1, 0x19, 4, sYes, sNo, nullptr);
-		}
+		std::uintptr_t	ProcessButtonAddr{0};
 	}
 
 	bool MenuOpenHandler::ProcessButtonOrig(RE::ButtonEvent* a_event)
@@ -74,12 +45,12 @@ namespace Gotobed
 		}
 
 		if (player->jailSentence > 0 && (player->unkBD8 & 0x40) == 0) {
-			ShowServeSentenceQuestion();
+			UIUtil::ShowServeSentenceQuestion();
 			return true;
 		}
 
 		if (player->actorState1.sitSleepState == RE::SIT_SLEEP_STATE::kIsSleeping) {
-			ShowSleepWaitMenu(true);
+			UIUtil::ShowSleepWaitMenu(true);
 			return true;
 		}
 
