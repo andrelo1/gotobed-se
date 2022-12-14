@@ -17,14 +17,12 @@ namespace Gotobed
 		}
 	}
 
-	Settings& Settings::Get()
-	{
+	Settings& Settings::Get() {
 		static Settings settings;
 		return settings;
 	}
 
-	void Settings::Read()
-	{
+	void Settings::Read() {
 		try {
 			std::ifstream f(detail::GetSettingsPath());
 			*this = json::parse(f).get<Settings>();
@@ -33,8 +31,7 @@ namespace Gotobed
 		}
 	}
 
-	void Settings::Write()
-	{
+	void Settings::Write() {
 		try {
 			std::ofstream f(detail::GetSettingsPath());
 			f << std::setw(4) << json(*this);

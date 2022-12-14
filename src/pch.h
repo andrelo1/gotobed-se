@@ -14,8 +14,7 @@ using json = nlohmann::json;
 namespace stl
 {
 	template <class T>
-	void write_thunk_call(std::uintptr_t a_src)
-	{
+	void write_thunk_call(std::uintptr_t a_src) {
 		auto& trampoline = SKSE::GetTrampoline();
 		SKSE::AllocTrampoline(14);
 

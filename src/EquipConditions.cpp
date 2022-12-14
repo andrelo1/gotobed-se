@@ -4,8 +4,7 @@
 
 namespace Gotobed
 {
-	bool EquipConditions::operator()(Actor& a_actor)
-	{
+	bool EquipConditions::operator()(Actor& a_actor) {
 		if (a_actor.actorState1.sitSleepState < RE::SIT_SLEEP_STATE::kWantToSleep || a_actor.actorState1.sitSleepState >  RE::SIT_SLEEP_STATE::kWantToWake) {
 			return false;
 		}
@@ -31,8 +30,7 @@ namespace Gotobed
 	}
 
 	template<>
-	EquipConditions FromJC(jc::Handle a_jcconditions)
-	{
+	EquipConditions FromJC(jc::Handle a_jcconditions) {
 		EquipConditions conditions;
 
 		if (a_jcconditions != jc::Handle::Null) {
@@ -54,8 +52,7 @@ namespace Gotobed
 	}
 
 	template<>
-	jc::Handle ToJC(EquipConditions const& a_conditions)
-	{
+	jc::Handle ToJC(EquipConditions const& a_conditions) {
 		auto jcconditions = jc::JMap::object();
 
 		auto locType = jc::JArray::object();

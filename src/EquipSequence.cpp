@@ -4,8 +4,7 @@
 namespace Gotobed
 {
 	template<>
-	EquipParams FromJC(jc::Handle a_jcparams)
-	{
+	EquipParams FromJC(jc::Handle a_jcparams) {
 		EquipParams params;
 
 		if (a_jcparams != jc::Handle::Null) {
@@ -20,8 +19,7 @@ namespace Gotobed
 	}
 
 	template<>
-	jc::Handle ToJC(EquipParams const& a_params)
-	{
+	jc::Handle ToJC(EquipParams const& a_params) {
 		auto jcparams = jc::JMap::object();
 
 		jc::JMap::setForm(jcparams, "item", a_params.item);
@@ -32,8 +30,7 @@ namespace Gotobed
 	}
 
 	template<>
-	EquipSequence FromJC(jc::Handle a_jcseq)
-	{
+	EquipSequence FromJC(jc::Handle a_jcseq) {
 		EquipSequence seq;
 
 		if (a_jcseq != jc::Handle::Null) {
@@ -54,8 +51,7 @@ namespace Gotobed
 	}
 
 	template<>
-	jc::Handle ToJC(EquipSequence const& a_seq)
-	{
+	jc::Handle ToJC(EquipSequence const& a_seq) {
 		auto jcseq = jc::JArray::object();
 
 		for (auto const& e : a_seq) {

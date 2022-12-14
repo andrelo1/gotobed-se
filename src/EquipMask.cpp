@@ -3,8 +3,7 @@
 
 namespace Gotobed
 {
-	bool EquipMask::operator()(EquipParams const& a_params) const
-	{
+	bool EquipMask::operator()(EquipParams const& a_params) const {
 		if (!a_params.item) {
 			return false;
 		}
@@ -34,8 +33,7 @@ namespace Gotobed
 	}
 
 	template<>
-	EquipMask FromJC(jc::Handle a_jcmask)
-	{
+	EquipMask FromJC(jc::Handle a_jcmask) {
 		EquipMask mask;
 
 		if (a_jcmask == jc::Handle::Null) {
@@ -52,8 +50,7 @@ namespace Gotobed
 	}
 
 	template<>
-	jc::Handle ToJC(EquipMask const& a_mask)
-	{
+	jc::Handle ToJC(EquipMask const& a_mask) {
 		auto jcmask = jc::JMap::object();
 
 		jc::JMap::setInt(jcmask, "armor", a_mask.armor);

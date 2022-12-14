@@ -11,15 +11,13 @@ namespace Gotobed
 	namespace
 	{
 		template<std::ranges::input_range R1, std::ranges::input_range R2, std::weakly_incrementable O, class Comp>
-		void set_difference(R1&& r1, R2&& r2, O result, Comp comp)
-		{
+		void set_difference(R1&& r1, R2&& r2, O result, Comp comp) {
 			std::ranges::copy_if(r1, result, [&](auto const& e1) {
 				return std::ranges::find_if(r2, [&](auto const& e2) { return comp(e1, e2); }) == r2.end();
 			});
 		}
 
-		void do_equip(Actor& a_actor, EquipParams const& a_params)
-		{
+		void do_equip(Actor& a_actor, EquipParams const& a_params) {
 			if (a_params.count) {
 				if (a_params.count > 0) {
 					a_actor.EquipItem(a_params.item, nullptr, a_params.count, a_params.slot);
@@ -30,21 +28,18 @@ namespace Gotobed
 		};
 
 		template<std::ranges::input_range R>
-		void do_equip(Actor& a_actor, R const& a_seq)
-		{
+		void do_equip(Actor& a_actor, R const& a_seq) {
 			for (auto const& e : a_seq) {
 				do_equip(a_actor, e);
 			}
 		}
 
 		template<std::ranges::input_range R>
-		void do_reverse_equip(Actor& a_actor, R const& a_seq)
-		{
+		void do_reverse_equip(Actor& a_actor, R const& a_seq) {
 			do_equip(a_actor, a_seq | std::views::reverse | std::views::transform([](auto e) { e.count = -e.count; return e; }));
 		}
 
-		EquipSequence get_worn_items(Actor& a_actor)
-		{
+		EquipSequence get_worn_items(Actor& a_actor) {
 			EquipSequence items;
 			auto inv = a_actor.GetInventory();
 
@@ -73,25 +68,21 @@ namespace Gotobed
 		}
 	}
 
-	RE::BGSLocation* Actor::GetCurrentLocation()
-	{
+	RE::BGSLocation* Actor::GetCurrentLocation() {
 		using func_t = decltype(&Actor::GetCurrentLocation);
 		REL::Relocation<func_t> func{ Offsets::TESObjectREFR::GetCurrentLocation };
 		return func(this);
 	}
 
-	void Actor::EquipItem(RE::TESBoundObject* a_item, RE::ExtraDataList* a_extraData, std::uint32_t a_count, const RE::BGSEquipSlot* a_slot, bool a_queueEquip, bool a_forceEquip, bool a_playSounds, bool a_applyNow)
-	{
+	void Actor::EquipItem(RE::TESBoundObject* a_item, RE::ExtraDataList* a_extraData, std::uint32_t a_count, const RE::BGSEquipSlot* a_slot, bool a_queueEquip, bool a_forceEquip, bool a_playSounds, bool a_applyNow) {
 		RE::ActorEquipManager::GetSingleton()->EquipObject(this, a_item, a_extraData, a_count, a_slot, a_queueEquip, a_forceEquip, a_playSounds, a_applyNow);
 	}
 
-	void Actor::UnequipItem(RE::TESBoundObject* a_item, RE::ExtraDataList* a_extraData, std::uint32_t a_count, const RE::BGSEquipSlot* a_slot, bool a_queueEquip, bool a_forceEquip, bool a_playSounds, bool a_applyNow, const RE::BGSEquipSlot* a_slotToReplace)
-	{
+	void Actor::UnequipItem(RE::TESBoundObject* a_item, RE::ExtraDataList* a_extraData, std::uint32_t a_count, const RE::BGSEquipSlot* a_slot, bool a_queueEquip, bool a_forceEquip, bool a_playSounds, bool a_applyNow, const RE::BGSEquipSlot* a_slotToReplace) {
 		RE::ActorEquipManager::GetSingleton()->UnequipObject(this, a_item, a_extraData, a_count, a_slot, a_queueEquip, a_forceEquip, a_playSounds, a_applyNow, a_slotToReplace);
 	}
 
-	void Actor::SetOutfit(Outfit const& a_outfit)
-	{
+	void Actor::SetOutfit(Outfit const& a_outfit) {
 		EquipSequence seq;
 
 		auto wornItems = get_worn_items(*this);
@@ -118,8 +109,7 @@ namespace Gotobed
 		}
 	}
 
-	void Actor::ResetOutfit()
-	{
+	void Actor::ResetOutfit() {
 		auto jcseq = jc::JFormDB::solveObj(this, ".formdb.outfit.equipSequence");
 
 		if (jcseq != jc::Handle::Null) {
@@ -130,8 +120,7 @@ namespace Gotobed
 		jc::JFormDB::solveObjSetter(this, ".formdb.outfit.equipSequence", jc::Handle::Null, true);
 	}
 
-	std::optional<Outfit> Actor::GetSleepOutfit()
-	{
+	std::optional<Outfit> Actor::GetSleepOutfit() {
 		auto jcoutfit = jc::JFormDB::solveObj(this, ".formdb.preferences.sleepwear.outfit");
 
 		if (jcoutfit != jc::Handle::Null) {
@@ -149,8 +138,7 @@ namespace Gotobed
 		return std::nullopt;
 	}
 
-	void Actor::UpdateOutfit()
-	{
+	void Actor::UpdateOutfit() {
 		if (IsInCombat()) {
 			return;
 		}

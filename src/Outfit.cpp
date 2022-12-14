@@ -3,8 +3,7 @@
 
 namespace Gotobed
 {
-	Outfit::Outfit(RE::BGSOutfit const& a_outfit)
-	{
+	Outfit::Outfit(RE::BGSOutfit const& a_outfit) {
 		for (auto& item : a_outfit.outfitItems) {
 			if (item && item->IsBoundObject()) {
 				items.push_back({ static_cast<RE::TESBoundObject*>(item), 1, nullptr });
@@ -13,8 +12,7 @@ namespace Gotobed
 	}
 
 	template<>
-	Outfit FromJC(jc::Handle a_jcoutfit)
-	{
+	Outfit FromJC(jc::Handle a_jcoutfit) {
 		Outfit outfit;
 
 		if (a_jcoutfit != jc::Handle::Null) {
@@ -27,8 +25,7 @@ namespace Gotobed
 	}
 
 	template<>
-	jc::Handle ToJC(Outfit const& a_outfit)
-	{
+	jc::Handle ToJC(Outfit const& a_outfit) {
 		auto jcoutfit = jc::JMap::object();
 
 		jc::JMap::setStr(jcoutfit, "name", a_outfit.name);

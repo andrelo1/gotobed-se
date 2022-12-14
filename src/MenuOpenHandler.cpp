@@ -9,15 +9,13 @@ namespace Gotobed
 		std::uintptr_t	ProcessButtonAddr{0};
 	}
 
-	bool MenuOpenHandler::ProcessButtonOrig(RE::ButtonEvent* a_event)
-	{
+	bool MenuOpenHandler::ProcessButtonOrig(RE::ButtonEvent* a_event) {
 		using func_t = decltype(&MenuOpenHandler::ProcessButtonOrig);
 		REL::Relocation<func_t> func{ ProcessButtonAddr };
 		return func(this, a_event);
 	}
 
-	bool MenuOpenHandler::ProcessButtonHook(RE::ButtonEvent* a_event)
-	{
+	bool MenuOpenHandler::ProcessButtonHook(RE::ButtonEvent* a_event) {
 		REL::Relocation<std::uint8_t*> unk_2FE95F8{ Offsets::unk_2FE95F8 };
 
 		if (a_event && a_event->userEvent == "Wait" && a_event->IsDown()) {
@@ -30,8 +28,7 @@ namespace Gotobed
 		return ProcessButtonOrig(a_event);
 	}
 
-	bool MenuOpenHandler::OnWaitButtonDown()
-	{
+	bool MenuOpenHandler::OnWaitButtonDown() {
 		auto ui = RE::UI::GetSingleton();
 
 		if (ui->numPausesGame || ui->IsMenuOpen("Fader Menu")) {
@@ -57,8 +54,7 @@ namespace Gotobed
 		return false;
 	}
 
-	void MenuOpenHandler::Init()
-	{
+	void MenuOpenHandler::Init() {
 		ProcessButtonAddr = Offsets::MenuOpenHandler::ProcessButton.address();
 		auto ProcessButtonHookAddr = &ProcessButtonHook;
 

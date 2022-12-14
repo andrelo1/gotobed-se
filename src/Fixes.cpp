@@ -7,8 +7,7 @@ namespace Gotobed::Fixes
 	{
 		struct SetMarkerReserved
 		{
-			static bool thunk(RE::TESObjectREFR* a_this, std::uint32_t a_marker, RE::Actor* a_actor, bool a_reserved, bool a_ignoreUsed)
-			{
+			static bool thunk(RE::TESObjectREFR* a_this, std::uint32_t a_marker, RE::Actor* a_actor, bool a_reserved, bool a_ignoreUsed) {
 				auto middleHigh = a_actor->currentProcess->middleHigh;
 
 				if (middleHigh && middleHigh->unk2E4 != a_marker) {					
@@ -24,8 +23,7 @@ namespace Gotobed::Fixes
 			static inline REL::Relocation<decltype(&thunk)> func;
 		};
 
-		void Install()
-		{
+		void Install() {
 			stl::write_thunk_call<SetMarkerReserved>(Offsets::BGSProcedureSitSleepExecState::ProcessActivate.address() + 0x02B4);
 			spdlog::info("Fixes: MultipleMarkersReservation installed");
 		}
