@@ -4,19 +4,13 @@
 
 namespace Gotobed
 {
-	namespace
+	namespace Hooks
 	{
-		std::uintptr_t OnSitSleepStateChangeAddr{0};
+		stl::HookData OnSitSleepStateChange{&AIProcess::OnSitSleepStateChange};
 	}
 
 	void AIProcess::OnSitSleepStateChange(Actor* a_actor, std::uint32_t a_newState, RE::RefHandle& a_refHandle, std::int32_t a_marker) {
-		using func_t = decltype(&AIProcess::OnSitSleepStateChange);
-		REL::Relocation<func_t> func{OnSitSleepStateChangeAddr};
-		func(this, a_actor, a_newState, a_refHandle, a_marker);
-	}
-
-	void AIProcess::OnSitSleepStateChangeHook(Actor* a_actor, std::uint32_t a_newState, RE::RefHandle& a_refHandle, std::int32_t a_marker) {
-		OnSitSleepStateChange(a_actor, a_newState, a_refHandle, a_marker);
+		Hooks::OnSitSleepStateChange.call_orig(this, a_actor, a_newState, a_refHandle, a_marker);
 
 		if (a_actor) {
 			auto sitSleepState = a_actor->actorState1.sitSleepState;
@@ -26,16 +20,7 @@ namespace Gotobed
 		}
 	}
 
-	void AIProcess::Init() {
-		OnSitSleepStateChangeAddr = Offsets::AIProcess::OnSitSleepStateChange.address();
-		auto OnSitSleepStateChangeHookAddr = &AIProcess::OnSitSleepStateChangeHook;
-
-		DetourTransactionBegin();
-		DetourUpdateThread(GetCurrentThread());
-		DetourAttach(reinterpret_cast<PVOID*>(&OnSitSleepStateChangeAddr), reinterpret_cast<PVOID&>(OnSitSleepStateChangeHookAddr));
-
-		if (DetourTransactionCommit() != NO_ERROR) {
-			spdlog::error("failed to attach detour");
-		}
+	void AIProcess::InstallHooks() {
+		stl::write_detour(Offsets::AIProcess::OnSitSleepStateChange.address(), Hooks::OnSitSleepStateChange);
 	}
 }

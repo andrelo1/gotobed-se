@@ -28,10 +28,9 @@ namespace Gotobed
 		REL::safe_write(Offsets::AIProcess::sub_674B60.address() + 0x013C, static_cast<std::uint8_t>(0xEB));
 		REL::safe_write(Offsets::Actor::FinishLoadGame.address() + 0x01B3, static_cast<std::uint8_t>(0xEB));
 
-		// hook Wait button
-		MenuOpenHandler::Init();
+		MenuOpenHandler::InstallHooks();
 
-		// install fixes
+		// fixes
 		if (settings.fixes.multipleMarkersReservation) {
 			Fixes::MultipleMarkersReservation::Install();
 		}
@@ -41,8 +40,7 @@ namespace Gotobed
 				return;
 			}
 
-			// hook actor sleep state
-			AIProcess::Init();
+			AIProcess::InstallHooks();
 		});
 
 		SKSE::Messaging::RegisterForSKSE([](SKSE::MessagingInterface::Message* a_msg) {
@@ -56,7 +54,7 @@ namespace Gotobed
 			}
 		});
 
-		// register papyrus
+		// papyrus
 		UIUtilPapyrus::Register();
 	}
 }

@@ -4,15 +4,9 @@
 
 namespace Gotobed
 {
-	namespace
+	namespace Hooks
 	{
-		std::uintptr_t	ProcessButtonAddr{0};
-	}
-
-	bool MenuOpenHandler::ProcessButtonOrig(RE::ButtonEvent* a_event) {
-		using func_t = decltype(&MenuOpenHandler::ProcessButtonOrig);
-		REL::Relocation<func_t> func{ProcessButtonAddr};
-		return func(this, a_event);
+		stl::HookData ProcessButton{&MenuOpenHandler::ProcessButtonHook};
 	}
 
 	bool MenuOpenHandler::ProcessButtonHook(RE::ButtonEvent* a_event) {
@@ -25,7 +19,7 @@ namespace Gotobed
 			}
 		}
 
-		return ProcessButtonOrig(a_event);
+		return Hooks::ProcessButton.call_orig(this, a_event);
 	}
 
 	bool MenuOpenHandler::OnWaitButtonDown() {
@@ -54,16 +48,7 @@ namespace Gotobed
 		return false;
 	}
 
-	void MenuOpenHandler::Init() {
-		ProcessButtonAddr = Offsets::MenuOpenHandler::ProcessButton.address();
-		auto ProcessButtonHookAddr = &ProcessButtonHook;
-
-		DetourTransactionBegin();
-		DetourUpdateThread(GetCurrentThread());
-		DetourAttach(reinterpret_cast<PVOID*>(&ProcessButtonAddr), reinterpret_cast<PVOID&>(ProcessButtonHookAddr));
-
-		if (DetourTransactionCommit() != NO_ERROR) {
-			spdlog::error("failed to attach detour");
-		}
+	void MenuOpenHandler::InstallHooks() {
+		stl::write_detour(Offsets::MenuOpenHandler::ProcessButton.address(), Hooks::ProcessButton);
 	}
 }
