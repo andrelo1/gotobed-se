@@ -17,7 +17,7 @@ namespace Gotobed::Fixes
 					}
 					middleHigh->unk2E4 = a_marker;
 				}
-				
+
 				return hook.call_orig(this, a_marker, a_actor, a_reserved, a_ignoreUsed);
 			}
 
