@@ -21,6 +21,6 @@ namespace Gotobed
 	}
 
 	void AIProcess::InstallHooks() {
-		stl::write_detour(Offsets::AIProcess::OnSitSleepStateChange.address(), Hooks::OnSitSleepStateChange);
+		Hooks::OnSitSleepStateChange.write_detour(Offsets::AIProcess::OnSitSleepStateChange.address());
 	}
 }

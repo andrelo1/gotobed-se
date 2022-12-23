@@ -25,21 +25,6 @@ namespace stl
 		auto func = unrestricted_cast<func_t>(a_func);
 		return func(a_args...);
 	}
-
-	template<class F>
-	struct HookData
-	{
-		template<class... Args>
-		auto call_orig(Args... a_args) {
-			// std::invoke doesn't work well if function is a member function of class derived from several base classes,
-			// compiler uses some math to calculate _this pointer and gets wrong result
-			// return std::invoke(orig, a_args...);
-			return invoke_non_member(orig, a_args...);
-		}
-
-		F	hook{nullptr};
-		F	orig{nullptr};
-	};
 	
 	template<class T>
 	std::uintptr_t write_detour(std::uintptr_t a_src, T a_dst) {
@@ -62,14 +47,25 @@ namespace stl
 	}
 
 	template<class F>
-	void write_detour(std::uintptr_t a_src, HookData<F>& a_hook) {
-		auto orig = write_detour(a_src, a_hook.hook);
-		a_hook.orig = unrestricted_cast<F>(orig);
-	}
+	struct HookData
+	{		
+		void write_detour(std::uintptr_t a_src) {
+			orig = unrestricted_cast<F>(stl::write_detour(a_src, hook));
+		}
 
-	template<class F>
-	void write_thunk(std::uintptr_t a_src, HookData<F>& a_hook) {
-		auto orig = write_call(a_src, a_hook.hook);
-		a_hook.orig = unrestricted_cast<F>(orig);
-	}
+		void write_thunk(std::uintptr_t a_src) {
+			orig = unrestricted_cast<F>(stl::write_call(a_src, hook));
+		}
+
+		template<class... Args>
+		auto call_orig(Args... a_args) {
+			// std::invoke doesn't work well if function is a member function of class derived from several base classes,
+			// compiler uses some math to calculate _this pointer and gets wrong result
+			// return std::invoke(orig, a_args...);
+			return invoke_non_member(orig, a_args...);
+		}
+
+		F	hook{nullptr};
+		F	orig{nullptr};
+	};
 }

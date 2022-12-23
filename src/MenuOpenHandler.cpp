@@ -49,6 +49,6 @@ namespace Gotobed
 	}
 
 	void MenuOpenHandler::InstallHooks() {
-		stl::write_detour(Offsets::MenuOpenHandler::ProcessButton.address(), Hooks::ProcessButton);
+		Hooks::ProcessButton.write_detour(Offsets::MenuOpenHandler::ProcessButton.address());
 	}
 }
