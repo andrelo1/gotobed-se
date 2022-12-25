@@ -53,7 +53,7 @@ namespace Gotobed::Offsets
 	namespace BGSProcedureSitSleepExecState
 	{
 		constexpr REL::ID Process{29144};
-		constexpr REL::ID ProcessActivate{29150};
+		constexpr REL::ID ActivateTarget{29150};
 	}
 
 	namespace MenuOpenHandler
