@@ -4,14 +4,15 @@ namespace Gotobed
 {
 	struct Settings
 	{
-		struct Sleepwear
-		{
-			bool	vanillaSleepOutfit{true};
-		};
-
 		struct Fixes
 		{
 			bool	multipleMarkersReservation{true};
+		};
+
+		struct Keys
+		{
+			std::int32_t	sleep{-1};
+			std::int32_t	serveTime{-1};
 		};
 
 		static Settings&	Get();
@@ -19,11 +20,12 @@ namespace Gotobed
 		void	Read();
 		void	Write();
 
-		Sleepwear	sleepwear;
-		Fixes		fixes;
+		bool	vanillaSleepOutfit{true};
+		Fixes	fixes;
+		Keys	keys;
 	};
 
-	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Settings::Sleepwear, vanillaSleepOutfit)
 	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Settings::Fixes, multipleMarkersReservation)
-	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Settings, sleepwear, fixes)
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Settings::Keys, sleep, serveTime)
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Settings, vanillaSleepOutfit, fixes, keys)
 }

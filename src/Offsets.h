@@ -58,6 +58,7 @@ namespace Gotobed::Offsets
 
 	namespace MenuOpenHandler
 	{
+		constexpr REL::ID CanProcess{52259};
 		constexpr REL::ID ProcessButton{52249};
 	}
 }
