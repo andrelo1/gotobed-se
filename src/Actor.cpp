@@ -127,7 +127,7 @@ namespace Gotobed
 			return FromJC<Outfit>(jcoutfit);
 		}
 
-		if (Settings::Get().sleepwear.vanillaSleepOutfit) {
+		if (Settings::Get().vanillaSleepOutfit) {
 			auto actorBase = GetActorBase();
 
 			if (actorBase && actorBase->sleepOutfit) {
