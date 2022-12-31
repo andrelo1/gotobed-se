@@ -22,19 +22,6 @@ namespace Gotobed
 		jc::api::init(OnJCApiInit);
 	}
 
-	void OnSKSEMessage(SKSE::MessagingInterface::Message* a_msg) {
-		if (!a_msg) {
-			return;
-		}
-
-		switch (a_msg->type) {
-			case SKSE::MessagingInterface::kPostLoad: {
-				OnPostLoad();
-				break;
-			}
-		}
-	}
-
 	void Init() {
 		auto& settings = Settings::Get();
 		settings.Read();
@@ -63,6 +50,17 @@ namespace Gotobed
 		// papyrus
 		UIUtilPapyrus::Register();
 
-		SKSE::GetMessagingInterface()->RegisterListener("SKSE", OnSKSEMessage);
+		SKSE::GetMessagingInterface()->RegisterListener("SKSE", [](SKSE::MessagingInterface::Message* a_msg) {
+			if (!a_msg) {
+				return;
+			}
+
+			switch (a_msg->type) {
+				case SKSE::MessagingInterface::kPostLoad: {
+					OnPostLoad();
+					break;
+				}
+			}
+		});
 	}
 }
