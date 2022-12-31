@@ -1,6 +1,5 @@
 #include "jcapi.h"
 #include "jcontainers/jc_interface.h"
-#include "SKSEMessaging.h"
 
 namespace jc
 {
@@ -382,14 +381,6 @@ namespace jc
 			}
 		}
 
-		void onPostLoad() {
-			SKSE::GetMessagingInterface()->RegisterListener(JC_PLUGIN_NAME, [](SKSE::MessagingInterface::Message* a_msg) {
-				if (a_msg && a_msg->type == jc::message_root_interface) {
-					onApiAvailable(jc::root_interface::from_void(a_msg->data));
-				}
-			});
-		}
-
 		bool ready() {
 			return detail::Storage::get().initialized;
 		}
@@ -397,9 +388,9 @@ namespace jc
 		void init(std::function<void()> a_onInitComplete) {
 			detail::Storage::get().onInitComplete = a_onInitComplete;
 
-			SKSE::Messaging::RegisterForSKSE([](SKSE::MessagingInterface::Message* a_msg) {
-				if (a_msg && a_msg->type == SKSE::MessagingInterface::kPostLoad) {
-					onPostLoad();
+			SKSE::GetMessagingInterface()->RegisterListener(JC_PLUGIN_NAME, [](SKSE::MessagingInterface::Message* a_msg) {
+				if (a_msg && a_msg->type == jc::message_root_interface) {
+					onApiAvailable(jc::root_interface::from_void(a_msg->data));
 				}
 			});
 		}

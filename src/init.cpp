@@ -2,15 +2,39 @@
 #include "Settings.h"
 #include "Offsets.h"
 #include "MenuOpenHandler.h"
-#include "AIProcess.h"
-#include "UIUtilPapyrus.h"
 #include "Fixes.h"
 #include "JCApi.h"
-#include "SKSEMessaging.h"
+#include "AIProcess.h"
+#include "UIUtilPapyrus.h"
 #include "UIUtil.h"
 
 namespace Gotobed
 {
+	void OnJCApiInit() {
+		if (!jc::api::ready() || !jc::api::setDefaultDomain("GTB_JCDomain")) {
+			return;
+		}
+
+		AIProcess::InstallHooks();
+	}
+
+	void OnPostLoad() {
+		jc::api::init(OnJCApiInit);
+	}
+
+	void OnSKSEMessage(SKSE::MessagingInterface::Message* a_msg) {
+		if (!a_msg) {
+			return;
+		}
+
+		switch (a_msg->type) {
+			case SKSE::MessagingInterface::kPostLoad: {
+				OnPostLoad();
+				break;
+			}
+		}
+	}
+
 	void Init() {
 		auto& settings = Settings::Get();
 		settings.Read();
@@ -28,6 +52,7 @@ namespace Gotobed
 		REL::safe_write(Offsets::AIProcess::sub_674B60.address() + 0x013C, static_cast<std::uint8_t>(0xEB));
 		REL::safe_write(Offsets::Actor::FinishLoadGame.address() + 0x01B3, static_cast<std::uint8_t>(0xEB));
 
+		// handle buttons
 		MenuOpenHandler::InstallHooks();
 
 		// fixes
@@ -35,26 +60,9 @@ namespace Gotobed
 			Fixes::MultipleMarkersReservation::Install();
 		}
 
-		jc::api::init([]() {
-			if (!jc::api::ready() || !jc::api::setDefaultDomain("GTB_JCDomain")) {
-				return;
-			}
-
-			AIProcess::InstallHooks();
-		});
-
-		SKSE::Messaging::RegisterForSKSE([](SKSE::MessagingInterface::Message* a_msg) {
-			if (a_msg && a_msg->type == SKSE::MessagingInterface::kPostLoadGame) {
-				if (!jc::api::ready()) {
-					std::thread([]() {
-						std::this_thread::sleep_for(std::chrono::seconds(5));
-						UIUtil::ShowMessageBox("GOTOBED\n\nError: JContainers api was not initialized.\nSome features won't be available.", nullptr, 0, 4, 10, "OK", nullptr);
-					}).detach();
-				}
-			}
-		});
-
 		// papyrus
 		UIUtilPapyrus::Register();
+
+		SKSE::GetMessagingInterface()->RegisterListener("SKSE", OnSKSEMessage);
 	}
 }
