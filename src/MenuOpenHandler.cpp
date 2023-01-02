@@ -13,20 +13,35 @@ namespace Gotobed
 
 	namespace details
 	{
-		bool IsSleepButton(RE::ButtonEvent* a_event) {
+		bool IsKeyPressed(std::uint32_t a_key) {
+			return RE::BSInputDeviceManager::GetSingleton()->GetKeyboard()->IsPressed(a_key);
+		}
+
+		bool IsSleepKey(RE::ButtonEvent* a_event) {
 			auto& settings = Settings::Get();
 			return a_event && (settings.keys.sleep != -1 ? a_event->idCode == settings.keys.sleep : a_event->userEvent == "Wait");
 		}
 
-		bool IsServeTimeButton(RE::ButtonEvent* a_event) {
+		bool IsSleepModPressed() {
+			auto& settings = Settings::Get();
+			return settings.keys.sleepMod == -1 || IsKeyPressed(settings.keys.sleepMod);
+		}
+
+		bool IsServeTimeKey(RE::ButtonEvent* a_event) {
 			auto& settings = Settings::Get();
 			return a_event && (settings.keys.serveTime != -1 ? a_event->idCode == settings.keys.serveTime : a_event->userEvent == "Wait");
 		}
+
+		bool IsServeTimeModPressed() {
+			auto& settings = Settings::Get();
+			return settings.keys.serveTimeMod == -1 || IsKeyPressed(settings.keys.serveTimeMod);
+		}
+
 	}
 
 	bool MenuOpenHandler::CanProcessHook(RE::InputEvent* a_event) {
 		if (a_event && a_event->eventType == RE::INPUT_EVENT_TYPE::kButton) {
-			if (details::IsSleepButton(a_event->AsButtonEvent()) || details::IsServeTimeButton(a_event->AsButtonEvent())) {
+			if (details::IsSleepKey(a_event->AsButtonEvent()) || details::IsServeTimeKey(a_event->AsButtonEvent())) {
 				return true;
 			}
 		}
@@ -37,12 +52,14 @@ namespace Gotobed
 	bool MenuOpenHandler::ProcessButtonHook(RE::ButtonEvent* a_event) {
 		// REL::Relocation<std::uint8_t*> unk_2FE95F8{Offsets::unk_2FE95F8};
 
+		auto& settings = Settings::Get();
+
 		if (a_event && a_event->IsDown()) {
-			if (details::IsServeTimeButton(a_event) && OnServeTimeButtonDown()) {
+			if (details::IsServeTimeKey(a_event) && details::IsServeTimeModPressed() && OnServeTimeButtonDown()) {
 				return true;
 			}
 
-			if (details::IsSleepButton(a_event) && OnSleepButtonDown()) {
+			if (details::IsSleepKey(a_event) && details::IsSleepModPressed() && OnSleepButtonDown()) {
 				return true;
 			}
 		}
