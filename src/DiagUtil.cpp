@@ -3,7 +3,7 @@
 
 namespace Gotobed::DiagUtil
 {
-	std::uint32_t GetJCApiStatus(RE::StaticFunctionTag*) {
+	std::int32_t GetJCApiStatus(RE::StaticFunctionTag*) {
 		return jc::api::ready();
 	}
 
