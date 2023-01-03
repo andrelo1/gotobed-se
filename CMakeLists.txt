@@ -20,6 +20,8 @@ target_sources("${PROJECT_NAME}"
 	src/Actor.h
 	src/AIProcess.cpp
 	src/AIProcess.h
+	src/DiagUtil.cpp
+	src/DiagUtil.h
 	src/EquipConditions.cpp
 	src/EquipConditions.h
 	src/EquipMask.cpp

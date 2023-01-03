@@ -6,6 +6,7 @@
 #include "JCApi.h"
 #include "AIProcess.h"
 #include "UIUtil.h"
+#include "DiagUtil.h"
 
 namespace Gotobed
 {
@@ -48,6 +49,7 @@ namespace Gotobed
 
 		// papyrus
 		UIUtil::Register();
+		DiagUtil::Register();
 
 		SKSE::GetMessagingInterface()->RegisterListener("SKSE", [](SKSE::MessagingInterface::Message* a_msg) {
 			if (!a_msg) {
