@@ -44,6 +44,8 @@ target_sources("${PROJECT_NAME}"
 	src/pch.h
 	src/Settings.cpp
 	src/Settings.h
+	src/SettingsPapyrus.cpp
+	src/SettingsPapyrus.h
 	src/UIFuncs.cpp
 	src/UIFuncs.h
 	src/UIUtil.cpp
