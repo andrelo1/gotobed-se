@@ -19,12 +19,12 @@ namespace Gotobed
 
 		bool IsSleepKey(RE::ButtonEvent* a_event) {
 			auto& settings = Settings::Get();
-			return a_event && (settings.keys.sleep != -1 ? a_event->idCode == settings.keys.sleep : a_event->userEvent == "Wait");
+			return a_event && (settings.keys.sleep != 0 ? a_event->idCode == settings.keys.sleep : a_event->userEvent == "Wait");
 		}
 
 		bool IsServeTimeKey(RE::ButtonEvent* a_event) {
 			auto& settings = Settings::Get();
-			return a_event && (settings.keys.serveTime != -1 ? a_event->idCode == settings.keys.serveTime : a_event->userEvent == "Wait");
+			return a_event && (settings.keys.serveTime != 0 ? a_event->idCode == settings.keys.serveTime : a_event->userEvent == "Wait");
 		}
 	}
 
@@ -42,11 +42,11 @@ namespace Gotobed
 		auto& settings = Settings::Get();
 
 		if (a_event && a_event->IsDown()) {
-			if (detail::IsServeTimeKey(a_event) && (settings.keys.serveTimeMod == -1 || detail::IsKeyPressed(settings.keys.serveTimeMod)) && OnServeTimeButtonDown()) {
+			if (detail::IsServeTimeKey(a_event) && (settings.keys.serveTimeMod == 0 || detail::IsKeyPressed(settings.keys.serveTimeMod)) && OnServeTimeButtonDown()) {
 				return true;
 			}
 
-			if (detail::IsSleepKey(a_event) && (settings.keys.sleepMod == -1 || detail::IsKeyPressed(settings.keys.sleepMod)) && OnSleepButtonDown()) {
+			if (detail::IsSleepKey(a_event) && (settings.keys.sleepMod == 0 || detail::IsKeyPressed(settings.keys.sleepMod)) && OnSleepButtonDown()) {
 				return true;
 			}
 		}
