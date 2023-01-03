@@ -3,6 +3,10 @@
 
 namespace Gotobed::SettingsPapyrus
 {
+	void Write(RE::StaticFunctionTag*) {
+		Settings::Get().Write();
+	}
+
 	std::int32_t GetSleepKey(RE::StaticFunctionTag*) {
 		return Settings::Get().keys.sleep;
 	}
@@ -37,6 +41,7 @@ namespace Gotobed::SettingsPapyrus
 
 	void Register() {
 		SKSE::GetPapyrusInterface()->Register([](RE::BSScript::IVirtualMachine* a_vm) {
+			a_vm->RegisterFunction("Write", "GTB_Settings", Write);
 			a_vm->RegisterFunction("GetSleepKey", "GTB_Settings", GetSleepKey);
 			a_vm->RegisterFunction("SetSleepKey", "GTB_Settings", SetSleepKey);
 			a_vm->RegisterFunction("GetSleepModKey", "GTB_Settings", GetSleepModKey);
