@@ -5,7 +5,6 @@
 #include "Fixes.h"
 #include "JCApi.h"
 #include "AIProcess.h"
-#include "UIUtilPapyrus.h"
 #include "UIUtil.h"
 
 namespace Gotobed
@@ -48,7 +47,7 @@ namespace Gotobed
 		}
 
 		// papyrus
-		UIUtilPapyrus::Register();
+		UIUtil::Register();
 
 		SKSE::GetMessagingInterface()->RegisterListener("SKSE", [](SKSE::MessagingInterface::Message* a_msg) {
 			if (!a_msg) {

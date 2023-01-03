@@ -42,10 +42,10 @@ target_sources("${PROJECT_NAME}"
 	src/pch.h
 	src/Settings.cpp
 	src/Settings.h
+	src/UIFuncs.cpp
+	src/UIFuncs.h
 	src/UIUtil.cpp
 	src/UIUtil.h
-	src/UIUtilPapyrus.cpp
-	src/UIUtilPapyrus.h
 	"${PROJECT_BINARY_DIR}/version.h"
 	"${PROJECT_BINARY_DIR}/version.rc"
 )

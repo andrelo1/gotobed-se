@@ -1,6 +1,6 @@
 #include "MenuOpenHandler.h"
 #include "Offsets.h"
-#include "UIUtil.h"
+#include "UIFuncs.h"
 #include "Settings.h"
 
 namespace Gotobed
@@ -84,7 +84,7 @@ namespace Gotobed
 			return false;
 		}
 
-		UIUtil::ShowSleepWaitMenu(true);
+		UIFuncs::ShowSleepWaitMenu(true);
 
 		return true;
 	}
@@ -106,7 +106,7 @@ namespace Gotobed
 			return false;
 		}
 
-		UIUtil::ShowServeSentenceQuestion();
+		UIFuncs::ShowServeSentenceQuestion();
 
 		return true;
 	}
