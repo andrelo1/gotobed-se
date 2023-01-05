@@ -11,10 +11,10 @@ namespace Gotobed
 
 		struct Keys
 		{
-			std::uint32_t	sleep{0};
-			std::uint32_t	sleepMod{0};
-			std::uint32_t	serveTime{0};
-			std::uint32_t	serveTimeMod{0};
+			std::int32_t	sleep{-1};
+			std::int32_t	sleepMod{-1};
+			std::int32_t	serveTime{-1};
+			std::int32_t	serveTimeMod{-1};
 		};
 
 		static Settings&	Get();
