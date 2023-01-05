@@ -395,6 +395,10 @@ namespace jc
 			});
 		}
 
+		void* getDefaultDomain() {
+			return detail::Storage::get().defaultDomain;
+		}
+
 		bool setDefaultDomain(const char* a_name) {
 			auto domain = domain::get(a_name);
 

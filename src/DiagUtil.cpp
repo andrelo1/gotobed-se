@@ -4,7 +4,15 @@
 namespace Gotobed::DiagUtil
 {
 	std::int32_t GetJCApiStatus(RE::StaticFunctionTag*) {
-		return jc::api::ready();
+		if (!jc::api::ready()) {
+			return 1;
+		}
+
+		if (!jc::api::getDefaultDomain()) {
+			return 2;
+		}
+
+		return 0;
 	}
 
 	void Register() {
