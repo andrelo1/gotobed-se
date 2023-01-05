@@ -9,7 +9,7 @@ namespace jc
 		bool	ready();
 		void	init(std::function<void()> a_onInitComplete = {});
 		void*	getDefaultDomain();
-		bool	setDefaultDomain(const char* a_name = "");
+		bool	setDefaultDomain(const char* a_name);
 	}
 
 	namespace domain
