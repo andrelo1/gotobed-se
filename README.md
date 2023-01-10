@@ -4,6 +4,7 @@
 - [CommonLibSSE](https://github.com/Ryan-rsm-McKenzie/CommonLibSSE)
 - [Detours](https://github.com/microsoft/Detours)
 - [JContainers](https://github.com/ryobg/JContainers)
+- [json](https://github.com/nlohmann/json)
 
 ## Build dependencies
 - Visual Studio 2022
