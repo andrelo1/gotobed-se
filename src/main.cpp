@@ -4,16 +4,6 @@
 
 namespace
 {
-	constexpr SKSE::PluginVersionData GetPluginVersion() {
-		SKSE::PluginVersionData version;
-
-		version.PluginVersion({ Version::MAJOR, Version::MINOR, Version::PATCH, Version::BUILD });
-		version.PluginName(Project::NAME);
-		version.UsesAddressLibrary(true);
-
-		return version;
-	}
-
 	void InitLog() {
 		auto path = SKSE::log::log_directory();
 
@@ -28,7 +18,14 @@ namespace
 	}
 }
 
-extern "C" __declspec(dllexport) constinit SKSE::PluginVersionData SKSEPlugin_Version{ GetPluginVersion() };
+
+extern "C" __declspec(dllexport) bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info) {
+	a_info->infoVersion = SKSE::PluginInfo::kVersion;
+	a_info->name = Project::NAME.data();
+	a_info->version = 1;
+
+	return true;
+}
 
 extern "C" __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse) {
 	InitLog();
@@ -36,4 +33,4 @@ extern "C" __declspec(dllexport) bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadIn
 	Gotobed::Init();
 
 	return true;
-}
+} 
