@@ -3,6 +3,23 @@
 #include "formtostr.h"
 
 namespace Gotobed {
+	ActorData::ActorData(ActorData const& a_data):
+		equipHistory(a_data.equipHistory)
+	{}
+
+	ActorData::ActorData(ActorData&& a_data):
+		equipHistory(std::move(a_data.equipHistory))
+	{}
+
+	ActorData& ActorData::operator=(ActorData const& a_data) {
+		equipHistory = a_data.equipHistory;
+		return *this;
+	}
+
+	ActorData& ActorData::operator=(ActorData&& a_data) {
+		equipHistory = std::move(a_data.equipHistory);
+		return *this;
+	}
 
 	ActorData& ActorData::Get(Actor& a_actor) {
 		return GetStorage()[a_actor.formID];
@@ -60,6 +77,7 @@ namespace Gotobed {
 
 			auto idstr = to_str<RE::FormID>(id);
 			if (!idstr.empty()) {
+				const std::lock_guard<std::mutex> lg(data.lock);
 				a_json[idstr] = data;
 			}
 		}
@@ -69,7 +87,8 @@ namespace Gotobed {
 		for (auto& [idstr, data]: a_json.items()) {
 			auto id = from_str<RE::FormID>(idstr);
 			if (id != 0) {
-				a_storage[id] = data;
+				const std::lock_guard<std::mutex> lg(a_storage[id].lock);
+				a_storage[id] = std::move(data.get<ActorData>());
 			}
 		}
 	}

@@ -98,11 +98,13 @@ namespace Gotobed
 		do_equip(*this, seq);
 
 		auto& data = ActorData::Get(*this);
+		std::lock_guard<std::mutex> lg(data.lock);
 		data.equipHistory.insert(data.equipHistory.end(), seq.begin(), seq.end());
 	}
 
 	void Actor::ResetOutfit() {
 		auto& data = ActorData::Get(*this);
+		std::lock_guard<std::mutex> lg(data.lock);
 		do_reverse_equip(*this, data.equipHistory);
 		data.equipHistory.clear();
 	}
