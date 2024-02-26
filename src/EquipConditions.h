@@ -1,7 +1,5 @@
 #pragma once
 
-#include "JCTypes.h"
-
 namespace Gotobed
 {
 	class Actor;
@@ -10,16 +8,9 @@ namespace Gotobed
 	{
 		bool	operator()(Actor& a_actor);
 
-		std::vector<RE::BGSKeyword*>	locType;
+		std::vector<RE::BGSKeyword*>	locationType;
 	};
 
-	template<class T>
-	T FromJC(jc::Handle);
-	template<>
-	EquipConditions FromJC(jc::Handle a_jcconditions);
-
-	template<class T>
-	jc::Handle ToJC(T const&);
-	template<>
-	jc::Handle ToJC(EquipConditions const& a_conditions);
+	void to_json(json& a_json, EquipConditions const& a_cond);
+	void from_json(json const& a_json, EquipConditions& a_cond);
 }

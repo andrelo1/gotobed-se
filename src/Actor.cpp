@@ -1,13 +1,13 @@
 #include "Actor.h"
 #include "Outfit.h"
 #include "EquipConditions.h"
-#include "JCApi.h"
 #include "Offsets.h"
 #include "Settings.h"
+#include "ActorData.h"
 #include <ranges>
 
 namespace Gotobed
-{
+{	
 	namespace
 	{
 		template<std::ranges::input_range R1, std::ranges::input_range R2, std::weakly_incrementable O, class Comp>
@@ -97,45 +97,39 @@ namespace Gotobed
 
 		do_equip(*this, seq);
 
-		auto jcseq = jc::JFormDB::solveObj(this, ".formdb.outfit.equipSequence");
-
-		if (jcseq == jc::Handle::Null) {
-			jcseq = jc::JArray::object();
-			jc::JFormDB::solveObjSetter(this, ".formdb.outfit.equipSequence", jcseq, true);
-		}
-
-		for (auto const& e : seq) {
-			jc::JArray::addObj(jcseq, ToJC(e));
-		}
+		auto& data = ActorData::Get(*this);
+		data.equipHistory.insert(data.equipHistory.end(), seq.begin(), seq.end());
 	}
 
 	void Actor::ResetOutfit() {
-		auto jcseq = jc::JFormDB::solveObj(this, ".formdb.outfit.equipSequence");
-
-		if (jcseq != jc::Handle::Null) {
-			auto seq = FromJC<EquipSequence>(jcseq);
-			do_reverse_equip(*this, seq);
-		}
-
-		jc::JFormDB::solveObjSetter(this, ".formdb.outfit.equipSequence", jc::Handle::Null, true);
+		auto& data = ActorData::Get(*this);
+		do_reverse_equip(*this, data.equipHistory);
+		data.equipHistory.clear();
 	}
 
 	std::optional<Outfit> Actor::GetSleepOutfit() {
-		auto jcoutfit = jc::JFormDB::solveObj(this, ".formdb.preferences.sleepwear.outfit");
+		auto actorBase = GetActorBase();
 
-		if (jcoutfit != jc::Handle::Null) {
-			return FromJC<Outfit>(jcoutfit);
+		if (!actorBase) {
+			return std::nullopt;
 		}
 
-		if (Settings::Get().vanillaSleepOutfit) {
-			auto actorBase = GetActorBase();
+		auto& settings = Settings::Get();
+		auto& actorSettings = settings.actors.contains(actorBase->formID) ? settings.actors[actorBase->formID] : settings.actorDefault;
 
-			if (actorBase && actorBase->sleepOutfit) {
-				return *actorBase->sleepOutfit;
+		if (actorSettings.useVanillaSleepOutfit) {
+			if (!actorBase->sleepOutfit) {
+				return std::nullopt;
 			}
-		}
 
-		return std::nullopt;
+			return *actorBase->sleepOutfit;
+		} else {
+			if (actorSettings.sleepOutfit.empty() || !settings.outfits.contains(actorSettings.sleepOutfit)) {
+				return std::nullopt;
+			}
+
+			return settings.outfits[actorSettings.sleepOutfit];
+		}
 	}
 
 	void Actor::UpdateOutfit() {
@@ -143,13 +137,28 @@ namespace Gotobed
 			return;
 		}
 
-		auto conditions = FromJC<EquipConditions>(jc::JFormDB::solveObj(this, ".formdb.preferences.sleepwear.conditions"));
-		auto outfit = conditions(*this) ? GetSleepOutfit() : std::nullopt;
+		auto actorBase = GetActorBase();
 
-		if (outfit) {
-			SetOutfit(*outfit);
-		} else {
-			ResetOutfit();
+		if (!actorBase) {
+			return;
 		}
+
+		auto& settings = Settings::Get();
+		auto& actorSettigns = settings.actors.contains(actorBase->formID) ? settings.actors[actorBase->formID] : settings.actorDefault;
+		auto& conditions = actorSettigns.sleepOutfitEquipConditions;
+
+		if (!conditions(*this)) {
+			ResetOutfit();
+			return;
+		}
+
+		auto outfit = GetSleepOutfit();
+
+		if (!outfit) {
+			ResetOutfit();
+			return;
+		}
+
+		SetOutfit(*outfit);
 	}
 }

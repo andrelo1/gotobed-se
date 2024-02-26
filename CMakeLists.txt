@@ -18,10 +18,10 @@ target_sources("${PROJECT_NAME}"
 	PRIVATE
 	src/Actor.cpp
 	src/Actor.h
+	src/ActorData.cpp
+	src/ActorData.h
 	src/AIProcess.cpp
 	src/AIProcess.h
-	src/DiagUtil.cpp
-	src/DiagUtil.h
 	src/EquipConditions.cpp
 	src/EquipConditions.h
 	src/EquipMask.cpp
@@ -30,11 +30,10 @@ target_sources("${PROJECT_NAME}"
 	src/EquipSequence.h
 	src/Fixes.cpp
 	src/Fixes.h
+	src/formtostr.cpp
+	src/formtostr.h
 	src/init.cpp
 	src/init.h
-	src/JCApi.cpp
-	src/JCApi.h
-	src/JCTypes.h
 	src/main.cpp
 	src/MenuOpenHandler.cpp
 	src/MenuOpenHandler.h
@@ -42,6 +41,8 @@ target_sources("${PROJECT_NAME}"
 	src/Outfit.cpp
 	src/Outfit.h
 	src/pch.h
+	src/SerializationStream.cpp
+	src/SerializationStream.h
 	src/Settings.cpp
 	src/Settings.h
 	src/SettingsPapyrus.cpp

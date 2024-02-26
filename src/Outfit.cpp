@@ -1,5 +1,4 @@
 #include "Outfit.h"
-#include "JCApi.h"
 
 namespace Gotobed
 {
@@ -11,27 +10,15 @@ namespace Gotobed
 		}
 	}
 
-	template<>
-	Outfit FromJC(jc::Handle a_jcoutfit) {
-		Outfit outfit;
-
-		if (a_jcoutfit != jc::Handle::Null) {
-			outfit.name = jc::JMap::getStr(a_jcoutfit, "name");
-			outfit.items = FromJC<EquipSequence>(jc::JMap::getObj(a_jcoutfit, "items"));
-			outfit.mask = FromJC<EquipMask>(jc::JMap::getObj(a_jcoutfit, "mask"));
-		}
-
-		return outfit;
+	void to_json(json& a_json, Outfit const& a_outfit) {
+		a_json["name"] = a_outfit.name;
+		a_json["items"] = a_outfit.items;
+		a_json["mask"] = a_outfit.mask;
 	}
 
-	template<>
-	jc::Handle ToJC(Outfit const& a_outfit) {
-		auto jcoutfit = jc::JMap::object();
-
-		jc::JMap::setStr(jcoutfit, "name", a_outfit.name);
-		jc::JMap::setObj(jcoutfit, "items", ToJC(a_outfit.items));
-		jc::JMap::setObj(jcoutfit, "mask", ToJC(a_outfit.mask));
-
-		return jcoutfit;
+	void from_json(json const& a_json, Outfit& a_outfit) {
+		a_json.at("name").get_to(a_outfit.name);
+		a_json.at("items").get_to(a_outfit.items);
+		a_json.at("mask").get_to(a_outfit.mask);
 	}
 }

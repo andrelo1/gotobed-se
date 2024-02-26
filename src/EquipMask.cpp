@@ -1,5 +1,4 @@
 #include "EquipMask.h"
-#include "JCApi.h"
 
 namespace Gotobed
 {
@@ -32,33 +31,19 @@ namespace Gotobed
 		return misc;
 	}
 
-	template<>
-	EquipMask FromJC(jc::Handle a_jcmask) {
-		EquipMask mask;
-
-		if (a_jcmask == jc::Handle::Null) {
-			return mask;
-		}
-
-		mask.armor = jc::JMap::getInt(a_jcmask, "armor", 0xFFFFFFFF);
-		mask.lhand = jc::JMap::getInt(a_jcmask, "lhand", 1);
-		mask.rhand = jc::JMap::getInt(a_jcmask, "rhand", 1);
-		mask.ammo = jc::JMap::getInt(a_jcmask, "ammo", 1);
-		mask.misc = jc::JMap::getInt(a_jcmask, "misc", 1);
-
-		return mask;
+	void to_json(json& a_json, EquipMask const& a_mask) {
+		a_json["armor"] = a_mask.armor;
+		a_json["lhand"] = a_mask.lhand;
+		a_json["rhand"] = a_mask.rhand;
+		a_json["ammo"] = a_mask.ammo;
+		a_json["misc"] = a_mask.misc;
 	}
 
-	template<>
-	jc::Handle ToJC(EquipMask const& a_mask) {
-		auto jcmask = jc::JMap::object();
-
-		jc::JMap::setInt(jcmask, "armor", a_mask.armor);
-		jc::JMap::setInt(jcmask, "lhand", a_mask.lhand);
-		jc::JMap::setInt(jcmask, "rhand", a_mask.rhand);
-		jc::JMap::setInt(jcmask, "ammo", a_mask.ammo);
-		jc::JMap::setInt(jcmask, "misc", a_mask.misc);
-
-		return jcmask;
+	void from_json(json const& a_json, EquipMask& a_mask) {
+		a_json.at("armor").get_to(a_mask.armor);
+		a_json.at("lhand").get_to(a_mask.lhand);
+		a_json.at("rhand").get_to(a_mask.rhand);
+		a_json.at("ammo").get_to(a_mask.ammo);
+		a_json.at("misc").get_to(a_mask.misc);
 	}
 }

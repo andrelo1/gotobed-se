@@ -1,6 +1,6 @@
 #include "EquipConditions.h"
 #include "Actor.h"
-#include "JCApi.h"
+#include "formtostr.h"
 
 namespace Gotobed
 {
@@ -9,19 +9,18 @@ namespace Gotobed
 			return false;
 		}
 
-		if (!locType.empty()) {
-
+		if (!locationType.empty()) {
 			auto location = a_actor.GetCurrentLocation();
 
 			if (!location) {
 				return false;
 			}
 
-			auto result = std::ranges::find_if(locType, [&](auto const& type) {
+			auto result = std::ranges::find_if(locationType, [&](auto const& type) {
 				return location->HasKeyword(type);
 			});
 			
-			if (result == locType.end()) {
+			if (result == locationType.end()) {
 				return false;
 			}
 		}
@@ -29,39 +28,27 @@ namespace Gotobed
 		return true;
 	}
 
-	template<>
-	EquipConditions FromJC(jc::Handle a_jcconditions) {
-		EquipConditions conditions;
+	void to_json(json& a_json, EquipConditions const& a_cond) {
+		auto j = json::array();
 
-		if (a_jcconditions != jc::Handle::Null) {
-			auto locType = jc::JMap::getObj(a_jcconditions, "locType");
+		for (auto& type: a_cond.locationType) {
+			auto typestr = to_str<RE::TESForm*>(type);
 
-			if (locType != jc::Handle::Null) {
-				auto count = jc::JArray::count(locType);
-
-				for (int i = 0; i < count; ++i) {
-					auto type = jc::JArray::getForm(locType, i);
-					if (type && type->formType == RE::FormType::Keyword) {
-						conditions.locType.push_back(static_cast<RE::BGSKeyword*>(type));
-					}
-				}
+			if (!typestr.empty()) {
+				j.push_back(typestr);
 			}
 		}
 
-		return conditions;
+		a_json["locationType"] = j;
 	}
 
-	template<>
-	jc::Handle ToJC(EquipConditions const& a_conditions) {
-		auto jcconditions = jc::JMap::object();
+	void from_json(json const& a_json, EquipConditions& a_cond) {
+		for (auto& str: a_json.at("locationType")) {
+			auto form = from_str<RE::TESForm*>(str);
 
-		auto locType = jc::JArray::object();
-		for (auto const& type : a_conditions.locType) {
-			jc::JArray::addForm(locType, type);
+			if (form && form->formType == RE::FormType::Keyword) {
+				a_cond.locationType.push_back(static_cast<RE::BGSKeyword*>(form));
+			}
 		}
-
-		jc::JMap::setObj(jcconditions, "locType", locType);
-
-		return jcconditions;
 	}
 }

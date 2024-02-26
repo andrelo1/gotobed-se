@@ -1,63 +1,27 @@
 #include "EquipSequence.h"
-#include "JCApi.h"
+#include "formtostr.h"
 
 namespace Gotobed
 {
-	template<>
-	EquipParams FromJC(jc::Handle a_jcparams) {
-		EquipParams params;
-
-		if (a_jcparams != jc::Handle::Null) {
-			auto item = jc::JMap::getForm(a_jcparams, "item");
-			params.item = item && item->IsBoundObject() ? static_cast<RE::TESBoundObject*>(item) : nullptr;
-			params.count = jc::JMap::getInt(a_jcparams, "count", 1);
-			auto slot = jc::JMap::getForm(a_jcparams, "slot");
-			params.slot = slot && slot->formType == RE::FormType::EquipSlot ? static_cast<RE::BGSEquipSlot*>(slot) : nullptr;
-		}
-
-		return params;
+	void to_json(json& a_json, EquipParams const& a_params) {
+		a_json["item"] = to_str<RE::TESForm*>(a_params.item);
+		a_json["count"] = a_params.count;
+		a_json["slot"] = to_str<RE::TESForm*>(a_params.slot);
 	}
 
-	template<>
-	jc::Handle ToJC(EquipParams const& a_params) {
-		auto jcparams = jc::JMap::object();
-
-		jc::JMap::setForm(jcparams, "item", a_params.item);
-		jc::JMap::setInt(jcparams, "count", a_params.count);
-		jc::JMap::setForm(jcparams, "slot", a_params.slot);
-
-		return jcparams;
-	}
-
-	template<>
-	EquipSequence FromJC(jc::Handle a_jcseq) {
-		EquipSequence seq;
-
-		if (a_jcseq != jc::Handle::Null) {
-			auto count = jc::JArray::count(a_jcseq);
-
-			for (int i = 0; i < count; ++i) {
-				auto params = FromJC<EquipParams>(jc::JArray::getObj(a_jcseq, i));
-
-				if (!params.item) {
-					continue;
-				}
-
-				seq.push_back(std::move(params));
-			}
+	void from_json(json const& a_json, EquipParams& a_params) {
+		{
+			auto str = a_json.at("item").get<std::string>();
+			auto form = from_str<RE::TESForm*>(str);
+			a_params.item = form && form->IsBoundObject() ? static_cast<RE::TESBoundObject*>(form) : nullptr;
 		}
 
-		return seq;
-	}
+		a_params.count = a_json.at("count").get<std::int32_t>();
 
-	template<>
-	jc::Handle ToJC(EquipSequence const& a_seq) {
-		auto jcseq = jc::JArray::object();
-
-		for (auto const& e : a_seq) {
-			jc::JArray::addObj(jcseq, ToJC(e));
+		{
+			auto str = a_json.at("slot").get<std::string>();
+			auto form = from_str<RE::TESForm*>(str);
+			a_params.slot = form && form->formType == RE::FormType::EquipSlot ? static_cast<RE::BGSEquipSlot*>(form) : nullptr;
 		}
-
-		return jcseq;
 	}
 }

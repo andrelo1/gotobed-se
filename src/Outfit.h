@@ -2,7 +2,6 @@
 
 #include "EquipSequence.h"
 #include "EquipMask.h"
-#include "JCTypes.h"
 
 namespace Gotobed
 {
@@ -16,13 +15,6 @@ namespace Gotobed
 		EquipMask		mask;
 	};
 
-	template<class T>
-	T FromJC(jc::Handle);
-	template<>
-	Outfit FromJC(jc::Handle a_jcoutfit);
-
-	template<class T>
-	jc::Handle ToJC(T const&);
-	template<>
-	jc::Handle ToJC(Outfit const& a_outfit);
+	void to_json(json& a_json, Outfit const& a_outfit);
+	void from_json(json const& a_json, Outfit& a_outfit);
 }

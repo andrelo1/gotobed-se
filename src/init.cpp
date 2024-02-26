@@ -3,27 +3,34 @@
 #include "Offsets.h"
 #include "MenuOpenHandler.h"
 #include "Fixes.h"
-#include "JCApi.h"
 #include "AIProcess.h"
 #include "UIUtil.h"
-#include "DiagUtil.h"
 #include "SettingsPapyrus.h"
+#include "ActorData.h"
 
 namespace Gotobed
 {
-	void OnJCApiInit() {
-		if (!jc::api::ready() || !jc::api::setDefaultDomain("GTB_JCDomain")) {
+	void OnSave(SKSE::SerializationInterface* a_intfc) {
+		if (!a_intfc) {
 			return;
 		}
 
-		AIProcess::InstallHooks();
+		ActorData::Save(*a_intfc);
 	}
 
-	void OnPostLoad() {
-		jc::api::init(OnJCApiInit);
+	void OnLoad(SKSE::SerializationInterface* a_intfc) {
+		if (!a_intfc) {
+			return;
+		}
+
+		std::uint32_t type, version, length;
+
+		while (a_intfc->GetNextRecordInfo(type, version, length)) {
+			ActorData::Load(*a_intfc, type, version, length);
+		}
 	}
 
-	void Init() {
+	void OnDataLoaded() {
 		auto& settings = Settings::Get();
 		settings.Read();
 
@@ -48,21 +55,22 @@ namespace Gotobed
 			Fixes::MultipleMarkersReservation::Install();
 		}
 
+		AIProcess::InstallHooks();
+
 		// papyrus
 		UIUtil::Register();
-		DiagUtil::Register();
 		SettingsPapyrus::Register();
 
-		SKSE::GetMessagingInterface()->RegisterListener("SKSE", [](SKSE::MessagingInterface::Message* a_msg) {
-			if (!a_msg) {
-				return;
-			}
+		auto serialization = SKSE::GetSerializationInterface();
+		serialization->SetUniqueID(1);
+		serialization->SetSaveCallback(OnSave);
+		serialization->SetLoadCallback(OnLoad);
+	}
 
-			switch (a_msg->type) {
-				case SKSE::MessagingInterface::kPostLoad: {
-					OnPostLoad();
-					break;
-				}
+	void Init() {
+		SKSE::GetMessagingInterface()->RegisterListener([](SKSE::MessagingInterface::Message* a_msg) {
+			if (a_msg->type == SKSE::MessagingInterface::kDataLoaded) {
+				OnDataLoaded();
 			}
 		});
 	}

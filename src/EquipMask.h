@@ -1,7 +1,6 @@
 #pragma once
 
 #include "EquipSequence.h"
-#include "JCTypes.h"
 
 namespace Gotobed
 {
@@ -16,13 +15,6 @@ namespace Gotobed
 		bool			misc{true};
 	};
 
-	template<class T>
-	T FromJC(jc::Handle);
-	template<>
-	EquipMask FromJC(jc::Handle a_jcmask);
-
-	template<class T>
-	jc::Handle ToJC(T const&);
-	template<>
-	jc::Handle ToJC(EquipMask const& a_mask);
+	void to_json(json& a_json, EquipMask const& a_mask);
+	void from_json(json const& a_json, EquipMask& a_mask);
 }
