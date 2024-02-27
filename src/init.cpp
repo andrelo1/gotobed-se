@@ -2,11 +2,11 @@
 #include "Settings.h"
 #include "Offsets.h"
 #include "MenuOpenHandler.h"
-#include "Fixes.h"
 #include "AIProcess.h"
 #include "UIUtil.h"
 #include "SettingsPapyrus.h"
 #include "ActorData.h"
+#include "TESObjectREFR.h"
 
 namespace Gotobed
 {
@@ -47,15 +47,9 @@ namespace Gotobed
 		REL::safe_write(Offsets::AIProcess::sub_674B60.address() + 0x013C, static_cast<std::uint8_t>(0xEB));
 		REL::safe_write(Offsets::Actor::FinishLoadGame.address() + 0x01B3, static_cast<std::uint8_t>(0xEB));
 
-		// handle buttons
 		MenuOpenHandler::InstallHooks();
-
-		// fixes
-		if (settings.fixes.multipleMarkersReservation) {
-			Fixes::MultipleMarkersReservation::Install();
-		}
-
 		AIProcess::InstallHooks();
+		TESObjectREFR::InstallHooks();
 
 		// papyrus
 		UIUtil::Register();

@@ -28,8 +28,6 @@ target_sources("${PROJECT_NAME}"
 	src/EquipMask.h
 	src/EquipSequence.cpp
 	src/EquipSequence.h
-	src/Fixes.cpp
-	src/Fixes.h
 	src/formtostr.cpp
 	src/formtostr.h
 	src/init.cpp
@@ -47,6 +45,8 @@ target_sources("${PROJECT_NAME}"
 	src/Settings.h
 	src/SettingsPapyrus.cpp
 	src/SettingsPapyrus.h
+	src/TESObjectREFR.cpp
+	src/TESObjectREFR.h
 	src/UIFuncs.cpp
 	src/UIFuncs.h
 	src/UIUtil.cpp

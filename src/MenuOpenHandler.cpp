@@ -5,11 +5,8 @@
 
 namespace Gotobed
 {
-	namespace Hooks
-	{
-		stl::HookData ProcessButton{&MenuOpenHandler::ProcessButtonHook};
-		stl::HookData CanProcess{&MenuOpenHandler::CanProcessHook};
-	}
+	std::uintptr_t CanProcess_Orig_Addr{0};
+	std::uintptr_t ProcessButton_Orig_Addr{0};
 
 	namespace detail
 	{
@@ -28,17 +25,29 @@ namespace Gotobed
 		}
 	}
 
-	bool MenuOpenHandler::CanProcessHook(RE::InputEvent* a_event) {
+	bool MenuOpenHandler::CanProcess_Orig(RE::InputEvent* a_event) {
+		using func_t = decltype(&MenuOpenHandler::CanProcess_Orig);
+		REL::Relocation<func_t> func{CanProcess_Orig_Addr};
+		return func(this, a_event);
+	}
+
+	bool MenuOpenHandler::CanProcess_Hook(RE::InputEvent* a_event) {
 		if (a_event && a_event->eventType == RE::INPUT_EVENT_TYPE::kButton) {
 			if (detail::IsSleepKey(a_event->AsButtonEvent()) || detail::IsServeTimeKey(a_event->AsButtonEvent())) {
 				return true;
 			}
 		}
 
-		return Hooks::CanProcess.call_orig(this, a_event);
+		return CanProcess_Orig(a_event);
 	}
 
-	bool MenuOpenHandler::ProcessButtonHook(RE::ButtonEvent* a_event) {
+	bool MenuOpenHandler::ProcessButton_Orig(RE::ButtonEvent* a_event) {
+		using func_t = decltype(&MenuOpenHandler::ProcessButton_Orig);
+		REL::Relocation<func_t> func{ProcessButton_Orig_Addr};
+		return func(this, a_event);
+	}
+
+	bool MenuOpenHandler::ProcessButton_Hook(RE::ButtonEvent* a_event) {
 		auto& settings = Settings::Get();
 
 		if (a_event && a_event->IsDown()) {
@@ -51,7 +60,7 @@ namespace Gotobed
 			}
 		}
 
-		return Hooks::ProcessButton.call_orig(this, a_event);
+		return ProcessButton_Orig(a_event);
 	}
 
 	bool MenuOpenHandler::OnSleepButtonDown() {
@@ -99,7 +108,18 @@ namespace Gotobed
 	}
 
 	void MenuOpenHandler::InstallHooks() {
-		Hooks::CanProcess.write_detour(Offsets::MenuOpenHandler::CanProcess.address());
-		Hooks::ProcessButton.write_detour(Offsets::MenuOpenHandler::ProcessButton.address());
+		CanProcess_Orig_Addr = Offsets::MenuOpenHandler::CanProcess.address();
+		auto CanProcess_Hook_Addr = &MenuOpenHandler::CanProcess_Hook;
+		ProcessButton_Orig_Addr = Offsets::MenuOpenHandler::ProcessButton.address();
+		auto ProcessButton_Hook_Addr = &MenuOpenHandler::ProcessButton_Hook;
+
+		DetourTransactionBegin();
+		DetourUpdateThread(GetCurrentThread());
+		DetourAttach(reinterpret_cast<PVOID*>(&CanProcess_Orig_Addr), reinterpret_cast<PVOID&>(CanProcess_Hook_Addr));
+		DetourAttach(reinterpret_cast<PVOID*>(&ProcessButton_Orig_Addr), reinterpret_cast<PVOID&>(ProcessButton_Hook_Addr));
+
+		if (DetourTransactionCommit() != NO_ERROR) {
+			spdlog::error("failed to attach detour");
+		}
 	}
 } 
