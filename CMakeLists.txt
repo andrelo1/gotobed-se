@@ -7,7 +7,6 @@ project(gotobed VERSION 2.0.7.0)
 find_package(CommonLibSSE REQUIRED)
 find_package(Detours REQUIRED)
 find_package(nlohmann_json REQUIRED)
-find_path(JCONTAINERS_INCLUDE_DIRS jcontainers/jc_interface.h)
 
 configure_file(cmake/version.h.in version.h)
 configure_file(cmake/version.rc.in version.rc)
@@ -68,7 +67,6 @@ target_compile_features("${PROJECT_NAME}"
 target_include_directories("${PROJECT_NAME}"
 	PRIVATE
 	"${PROJECT_BINARY_DIR}"
-	"${JCONTAINERS_INCLUDE_DIRS}"
 )
 
 target_link_libraries("${PROJECT_NAME}"
