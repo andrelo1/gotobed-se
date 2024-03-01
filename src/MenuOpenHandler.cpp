@@ -10,18 +10,72 @@ namespace Gotobed
 
 	namespace detail
 	{
+		std::uint32_t GetGamepadKeyCode(std::uint32_t a_idCode)
+		{
+			static std::unordered_map<std::uint32_t, std::uint32_t> map {
+				{0x0001, 266}, // dpad up
+				{0x0002, 267}, // dpad down
+				{0x0004, 268}, // dpad left
+				{0x0008, 269}, // dpad right
+				{0x0010, 270}, // start
+				{0x0020, 271}, // back
+				{0x0040, 272}, // left thumb
+				{0x0080, 273}, // right thumb
+				{0x0100, 274}, // left shoulder
+				{0x0200, 275}, // right shoulder
+				{0x1000, 276}, // a
+				{0x2000, 277}, // b
+				{0x4000, 278}, // x
+				{0x8000, 279}, // y
+				{0x0009, 280}, // left trigger
+				{0x000A, 281}, // right trigger
+			};
+
+			if (!map.contains(a_idCode)) {
+				return 0;
+			}
+
+			return map.at(a_idCode);
+		}
+
 		bool IsKeyPressed(std::uint32_t a_key) {
 			return RE::BSInputDeviceManager::GetSingleton()->GetKeyboard()->IsPressed(a_key);
 		}
 
 		bool IsSleepKey(RE::ButtonEvent* a_event) {
 			auto& settings = Settings::Get();
-			return a_event && (settings.keys.sleep != -1 ? a_event->idCode == settings.keys.sleep : a_event->userEvent == "Wait");
+
+			if (settings.keys.sleep == -1) {
+				return a_event->userEvent == "Wait";
+			}
+
+			if (a_event->device == RE::INPUT_DEVICE::kKeyboard) {
+				return a_event->idCode == settings.keys.sleep;
+			}
+
+			if (a_event->device == RE::INPUT_DEVICE::kGamepad) {
+				return GetGamepadKeyCode(a_event->idCode) == settings.keys.sleep;
+			}
+
+			return false;
 		}
 
 		bool IsServeTimeKey(RE::ButtonEvent* a_event) {
 			auto& settings = Settings::Get();
-			return a_event && (settings.keys.serveTime != -1 ? a_event->idCode == settings.keys.serveTime : a_event->userEvent == "Wait");
+
+			if (settings.keys.sleep == -1) {
+				return a_event->userEvent == "Wait";
+			}
+
+			if (a_event->device == RE::INPUT_DEVICE::kKeyboard) {
+				return a_event->idCode == settings.keys.serveTime;
+			}
+
+			if (a_event->device == RE::INPUT_DEVICE::kGamepad) {
+				return GetGamepadKeyCode(a_event->idCode) == settings.keys.serveTime;
+			}
+
+			return false;
 		}
 	}
 
