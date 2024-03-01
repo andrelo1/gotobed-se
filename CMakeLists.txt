@@ -15,31 +15,13 @@ add_library("${PROJECT_NAME}" SHARED)
 
 target_sources("${PROJECT_NAME}"
 	PRIVATE
-	src/Actor.cpp
-	src/Actor.h
-	src/ActorData.cpp
-	src/ActorData.h
-	src/AIProcess.cpp
-	src/AIProcess.h
-	src/EquipConditions.cpp
-	src/EquipConditions.h
-	src/EquipMask.cpp
-	src/EquipMask.h
-	src/EquipSequence.cpp
-	src/EquipSequence.h
-	src/formtostr.cpp
-	src/formtostr.h
 	src/init.cpp
 	src/init.h
 	src/main.cpp
 	src/MenuOpenHandler.cpp
 	src/MenuOpenHandler.h
 	src/Offsets.h
-	src/Outfit.cpp
-	src/Outfit.h
 	src/pch.h
-	src/SerializationStream.cpp
-	src/SerializationStream.h
 	src/Settings.cpp
 	src/Settings.h
 	src/SettingsPapyrus.cpp

@@ -1,36 +1,17 @@
 #include "init.h"
 #include "Settings.h"
 #include "Offsets.h"
-#include "MenuOpenHandler.h"
-#include "AIProcess.h"
 #include "UIUtil.h"
+#include "MenuOpenHandler.h"
 #include "SettingsPapyrus.h"
-#include "ActorData.h"
 #include "TESObjectREFR.h"
 
 namespace Gotobed
 {
-	void OnSave(SKSE::SerializationInterface* a_intfc) {
-		if (!a_intfc) {
-			return;
-		}
-
-		ActorData::Save(*a_intfc);
-	}
-
-	void OnLoad(SKSE::SerializationInterface* a_intfc) {
-		if (!a_intfc) {
-			return;
-		}
-
-		std::uint32_t type, version, length;
-
-		while (a_intfc->GetNextRecordInfo(type, version, length)) {
-			ActorData::Load(*a_intfc, type, version, length);
-		}
-	}
-
 	void OnDataLoaded() {
+	}
+
+	void Init() {
 		auto& settings = Settings::Get();
 		settings.Read();
 
@@ -48,24 +29,10 @@ namespace Gotobed
 		REL::safe_write(Offsets::Actor::FinishLoadGame.address() + 0x01B3, static_cast<std::uint8_t>(0xEB));
 
 		MenuOpenHandler::InstallHooks();
-		AIProcess::InstallHooks();
 		TESObjectREFR::InstallHooks();
 
 		// papyrus
 		UIUtil::Register();
 		SettingsPapyrus::Register();
-
-		auto serialization = SKSE::GetSerializationInterface();
-		serialization->SetUniqueID(1);
-		serialization->SetSaveCallback(OnSave);
-		serialization->SetLoadCallback(OnLoad);
-	}
-
-	void Init() {
-		SKSE::GetMessagingInterface()->RegisterListener([](SKSE::MessagingInterface::Message* a_msg) {
-			if (a_msg->type == SKSE::MessagingInterface::kDataLoaded) {
-				OnDataLoaded();
-			}
-		});
 	}
 }
