@@ -1,7 +1,6 @@
 #include "init.h"
 #include "Settings.h"
 #include "Offsets.h"
-#include "UIUtil.h"
 #include "MenuOpenHandler.h"
 #include "SettingsPapyrus.h"
 #include "TESObjectREFR.h"
@@ -32,7 +31,6 @@ namespace Gotobed
 		TESObjectREFR::InstallHooks();
 
 		// papyrus
-		UIUtil::Register();
 		SettingsPapyrus::Register();
 	}
 }
