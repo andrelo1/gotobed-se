@@ -28,10 +28,6 @@ target_sources("${PROJECT_NAME}"
 	src/SettingsPapyrus.h
 	src/TESObjectREFR.cpp
 	src/TESObjectREFR.h
-	src/UIFuncs.cpp
-	src/UIFuncs.h
-	src/UIUtil.cpp
-	src/UIUtil.h
 	"${PROJECT_BINARY_DIR}/version.h"
 	"${PROJECT_BINARY_DIR}/version.rc"
 )
