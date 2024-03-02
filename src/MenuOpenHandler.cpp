@@ -1,6 +1,5 @@
 #include "MenuOpenHandler.h"
 #include "Offsets.h"
-#include "UIFuncs.h"
 #include "Settings.h"
 
 namespace Gotobed
@@ -8,8 +7,7 @@ namespace Gotobed
 	std::uintptr_t CanProcess_Orig_Addr{0};
 	std::uintptr_t ProcessButton_Orig_Addr{0};
 
-	namespace detail
-	{
+	namespace {
 		std::uint32_t GetGamepadKeyCode(std::uint32_t a_idCode)
 		{
 			static std::unordered_map<std::uint32_t, std::uint32_t> map {
@@ -38,44 +36,69 @@ namespace Gotobed
 			return map.at(a_idCode);
 		}
 
-		bool IsKeyPressed(std::uint32_t a_key) {
-			return RE::BSInputDeviceManager::GetSingleton()->GetKeyboard()->IsPressed(a_key);
-		}
-
-		bool IsSleepKey(RE::ButtonEvent* a_event) {
+		bool IsSleepKey(RE::ButtonEvent& a_event) {
 			auto& settings = Settings::Get();
+			auto userEvents = RE::UserEvents::GetSingleton();
 
 			if (settings.keys.sleep == -1) {
-				return a_event->userEvent == "Wait";
+				return a_event.userEvent == userEvents->wait;
 			}
 
-			if (a_event->device == RE::INPUT_DEVICE::kKeyboard) {
-				return a_event->idCode == settings.keys.sleep;
+			if (a_event.device == RE::INPUT_DEVICE::kKeyboard) {
+				return a_event.idCode == settings.keys.sleep;
 			}
 
-			if (a_event->device == RE::INPUT_DEVICE::kGamepad) {
-				return GetGamepadKeyCode(a_event->idCode) == settings.keys.sleep;
+			if (a_event.device == RE::INPUT_DEVICE::kGamepad) {
+				return GetGamepadKeyCode(a_event.idCode) == settings.keys.sleep;
 			}
 
 			return false;
 		}
 
-		bool IsServeTimeKey(RE::ButtonEvent* a_event) {
+		bool IsServeTimeKey(RE::ButtonEvent& a_event) {
 			auto& settings = Settings::Get();
+			auto userEvents = RE::UserEvents::GetSingleton();
 
-			if (settings.keys.sleep == -1) {
-				return a_event->userEvent == "Wait";
+			if (settings.keys.serveTime == -1) {
+				return a_event.userEvent == userEvents->wait;
 			}
 
-			if (a_event->device == RE::INPUT_DEVICE::kKeyboard) {
-				return a_event->idCode == settings.keys.serveTime;
+			if (a_event.device == RE::INPUT_DEVICE::kKeyboard) {
+				return a_event.idCode == settings.keys.serveTime;
 			}
 
-			if (a_event->device == RE::INPUT_DEVICE::kGamepad) {
-				return GetGamepadKeyCode(a_event->idCode) == settings.keys.serveTime;
+			if (a_event.device == RE::INPUT_DEVICE::kGamepad) {
+				return GetGamepadKeyCode(a_event.idCode) == settings.keys.serveTime;
 			}
 
 			return false;
+		}
+
+		template<class... Args>
+		bool ShowMessageBox(const char* a_msg, void (*a_callback)(std::uint8_t), std::uint8_t a_unk3, std::uint32_t a_unk4, std::uint32_t a_unk5, Args... a_args) {
+			using func_t = decltype(&ShowMessageBox<Args...>);
+			REL::Relocation<func_t> func{Offsets::ShowMessageBox};
+			return func(a_msg, a_callback, a_unk3, a_unk4, a_unk5, a_args...);
+		}
+
+		void ShowSleepWaitMenu(bool a_sleep) {
+			using func_t = decltype(&ShowSleepWaitMenu);
+			REL::Relocation<func_t> func{Offsets::ShowSleepWaitMenu};
+			func(a_sleep);
+		}
+
+		void ShowServeSentenceQuestion() {
+			auto settings = RE::GameSettingCollection::GetSingleton();
+			auto sServeSentenceQuestion = settings->GetSetting("sServeSentenceQuestion")->GetString();
+			auto sYes = settings->GetSetting("sYes")->GetString();
+			auto sNo = settings->GetSetting("sNo")->GetString();
+			auto callback = [](std::uint8_t a_idx) {
+				if (a_idx == 1) {
+					RE::PlayerCharacter::GetSingleton()->ServePrisonTime();
+				}
+			};
+
+			ShowMessageBox(sServeSentenceQuestion, callback, 1, 0x19, 4, sYes, sNo, nullptr);
 		}
 	}
 
@@ -87,7 +110,7 @@ namespace Gotobed
 
 	bool MenuOpenHandler::CanProcess_Hook(RE::InputEvent* a_event) {
 		if (a_event && a_event->eventType == RE::INPUT_EVENT_TYPE::kButton) {
-			if (detail::IsSleepKey(a_event->AsButtonEvent()) || detail::IsServeTimeKey(a_event->AsButtonEvent())) {
+			if (IsSleepKey(*a_event->AsButtonEvent()) || IsServeTimeKey(*a_event->AsButtonEvent())) {
 				return true;
 			}
 		}
@@ -102,14 +125,12 @@ namespace Gotobed
 	}
 
 	bool MenuOpenHandler::ProcessButton_Hook(RE::ButtonEvent* a_event) {
-		auto& settings = Settings::Get();
-
 		if (a_event && a_event->IsDown()) {
-			if (detail::IsServeTimeKey(a_event) && (settings.keys.serveTimeMod == -1 || detail::IsKeyPressed(settings.keys.serveTimeMod)) && OnServeTimeButtonDown()) {
+			if (IsServeTimeKey(*a_event) && OnServeTimeButtonDown()) {
 				return true;
 			}
 
-			if (detail::IsSleepKey(a_event) && (settings.keys.sleepMod == -1 || detail::IsKeyPressed(settings.keys.sleepMod)) && OnSleepButtonDown()) {
+			if (IsSleepKey(*a_event) && OnSleepButtonDown()) {
 				return true;
 			}
 		}
@@ -118,9 +139,18 @@ namespace Gotobed
 	}
 
 	bool MenuOpenHandler::OnSleepButtonDown() {
+		auto& settings = Settings::Get();
+
+		if (settings.keys.sleepMod != -1) {
+			auto kb = RE::BSInputDeviceManager::GetSingleton()->GetKeyboard();
+			if (!kb->IsPressed(settings.keys.sleepMod)) {
+				return false;
+			}
+		}
+
 		auto ui = RE::UI::GetSingleton();
 
-		if (ui->numPausesGame || ui->IsMenuOpen(RE::FaderMenu::MENU_NAME)) {
+		if (ui->numPausesGame > 0 || ui->IsMenuOpen(RE::FaderMenu::MENU_NAME)) {
 			return false;
 		}
 
@@ -134,15 +164,24 @@ namespace Gotobed
 			return false;
 		}
 
-		UIFuncs::ShowSleepWaitMenu(true);
+		ShowSleepWaitMenu(true);
 
 		return true;
 	}
 
 	bool MenuOpenHandler::OnServeTimeButtonDown() {
+		auto& settings = Settings::Get();
+
+		if (settings.keys.serveTimeMod != -1) {
+			auto kb = RE::BSInputDeviceManager::GetSingleton()->GetKeyboard();
+			if (!kb->IsPressed(settings.keys.serveTimeMod)) {
+				return false;
+			}
+		}
+
 		auto ui = RE::UI::GetSingleton();
 
-		if (ui->numPausesGame || ui->IsMenuOpen(RE::FaderMenu::MENU_NAME)) {
+		if (ui->numPausesGame > 0 || ui->IsMenuOpen(RE::FaderMenu::MENU_NAME)) {
 			return false;
 		}
 
@@ -156,7 +195,7 @@ namespace Gotobed
 			return false;
 		}
 
-		UIFuncs::ShowServeSentenceQuestion();
+		ShowServeSentenceQuestion();
 
 		return true;
 	}
