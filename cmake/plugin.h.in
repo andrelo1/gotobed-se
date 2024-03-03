@@ -1,0 +1,12 @@
+#pragma once
+
+namespace Plugin {
+	namespace Version {
+		inline constexpr std::size_t major = ${PROJECT_VERSION_MAJOR};
+		inline constexpr std::size_t minor = ${PROJECT_VERSION_MINOR};
+		inline constexpr std::size_t patch = ${PROJECT_VERSION_PATCH};
+		inline constexpr std::size_t build = ${PROJECT_VERSION_TWEAK};
+	}
+
+	inline constexpr std::string_view name = "${PROJECT_NAME}";
+}

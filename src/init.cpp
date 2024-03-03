@@ -7,9 +7,6 @@
 
 namespace Gotobed
 {
-	void OnDataLoaded() {
-	}
-
 	void Init() {
 		auto& settings = Settings::Get();
 		settings.Read();
