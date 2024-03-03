@@ -3,10 +3,9 @@
 ## Dependencies
 - [CommonLibSSE](https://github.com/Ryan-rsm-McKenzie/CommonLibSSE)
 - [Detours](https://github.com/microsoft/Detours)
-- [JContainers](https://github.com/ryobg/JContainers)
 - [json](https://github.com/nlohmann/json)
 
-## Build dependencies
+## Build prerequisites
 - Visual Studio 2022
   - Desktop development with C++
 - [vcpkg](https://github.com/microsoft/vcpkg)
