@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
-project(gotobed VERSION 2.0.7.0)
+project(gotobed VERSION 2.1.0.0)
 
 find_package(CommonLibSSE REQUIRED)
 find_package(Detours REQUIRED)
